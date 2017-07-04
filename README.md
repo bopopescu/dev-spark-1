@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Apache Spark
 
 Spark is a fast and general cluster computing system for Big Data. It provides
@@ -96,3 +97,6 @@ distribution.
 
 Please refer to the [Configuration Guide](http://spark.apache.org/docs/latest/configuration.html)
 in the online documentation for an overview on how to configure Spark.
+=======
+# dev-spark-1
+>>>>>>> e13fb6f6c17514445364639ff43a3facaddd4713
