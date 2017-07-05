@@ -1,0 +1,2220 @@
+ create mode 100644 unsafe/src/main/java/org/apache/spark/unsafe/memory/ExecutorMemoryManager.java
+ create mode 100644 unsafe/src/main/java/org/apache/spark/unsafe/memory/HeapMemoryAllocator.java
+ create mode 100644 unsafe/src/main/java/org/apache/spark/unsafe/memory/MemoryAllocator.java
+ create mode 100644 unsafe/src/main/java/org/apache/spark/unsafe/memory/MemoryBlock.java
+ create mode 100644 unsafe/src/main/java/org/apache/spark/unsafe/memory/MemoryLocation.java
+ create mode 100644 unsafe/src/main/java/org/apache/spark/unsafe/memory/TaskMemoryManager.java
+ create mode 100644 unsafe/src/main/java/org/apache/spark/unsafe/memory/UnsafeMemoryAllocator.java
+ create mode 100644 unsafe/src/main/java/org/apache/spark/unsafe/types/ByteArray.java
+ create mode 100644 unsafe/src/main/java/org/apache/spark/unsafe/types/CalendarInterval.java
+ create mode 100644 unsafe/src/main/java/org/apache/spark/unsafe/types/UTF8String.java
+ create mode 100644 unsafe/src/test/java/org/apache/spark/unsafe/PlatformUtilSuite.java
+ create mode 100644 unsafe/src/test/java/org/apache/spark/unsafe/array/LongArraySuite.java
+ create mode 100644 unsafe/src/test/java/org/apache/spark/unsafe/bitset/BitSetSuite.java
+ create mode 100644 unsafe/src/test/java/org/apache/spark/unsafe/hash/Murmur3_x86_32Suite.java
+ create mode 100644 unsafe/src/test/java/org/apache/spark/unsafe/memory/TaskMemoryManagerSuite.java
+ create mode 100644 unsafe/src/test/java/org/apache/spark/unsafe/types/CalendarIntervalSuite.java
+ create mode 100644 unsafe/src/test/java/org/apache/spark/unsafe/types/UTF8StringSuite.java
+ create mode 100644 unsafe/src/test/scala/org/apache/spark/unsafe/types/UTF8StringPropertyCheckSuite.scala
+ create mode 100644 yarn/pom.xml
+ create mode 100644 yarn/src/main/scala/org/apache/spark/deploy/yarn/AMDelegationTokenRenewer.scala
+ create mode 100644 yarn/src/main/scala/org/apache/spark/deploy/yarn/ApplicationMaster.scala
+ create mode 100644 yarn/src/main/scala/org/apache/spark/deploy/yarn/ApplicationMasterArguments.scala
+ create mode 100644 yarn/src/main/scala/org/apache/spark/deploy/yarn/Client.scala
+ create mode 100644 yarn/src/main/scala/org/apache/spark/deploy/yarn/ClientArguments.scala
+ create mode 100644 yarn/src/main/scala/org/apache/spark/deploy/yarn/ClientDistributedCacheManager.scala
+ create mode 100644 yarn/src/main/scala/org/apache/spark/deploy/yarn/ExecutorDelegationTokenUpdater.scala
+ create mode 100644 yarn/src/main/scala/org/apache/spark/deploy/yarn/ExecutorRunnable.scala
+ create mode 100644 yarn/src/main/scala/org/apache/spark/deploy/yarn/LocalityPreferredContainerPlacementStrategy.scala
+ create mode 100644 yarn/src/main/scala/org/apache/spark/deploy/yarn/YarnAllocator.scala
+ create mode 100644 yarn/src/main/scala/org/apache/spark/deploy/yarn/YarnRMClient.scala
+ create mode 100644 yarn/src/main/scala/org/apache/spark/deploy/yarn/YarnSparkHadoopUtil.scala
+ create mode 100644 yarn/src/main/scala/org/apache/spark/scheduler/cluster/YarnClientSchedulerBackend.scala
+ create mode 100644 yarn/src/main/scala/org/apache/spark/scheduler/cluster/YarnClusterScheduler.scala
+ create mode 100644 yarn/src/main/scala/org/apache/spark/scheduler/cluster/YarnClusterSchedulerBackend.scala
+ create mode 100644 yarn/src/main/scala/org/apache/spark/scheduler/cluster/YarnScheduler.scala
+ create mode 100644 yarn/src/test/resources/log4j.properties
+ create mode 100644 yarn/src/test/scala/org/apache/spark/deploy/yarn/ClientDistributedCacheManagerSuite.scala
+ create mode 100644 yarn/src/test/scala/org/apache/spark/deploy/yarn/ClientSuite.scala
+ create mode 100644 yarn/src/test/scala/org/apache/spark/deploy/yarn/ContainerPlacementStrategySuite.scala
+ create mode 100644 yarn/src/test/scala/org/apache/spark/deploy/yarn/YarnAllocatorSuite.scala
+ create mode 100644 yarn/src/test/scala/org/apache/spark/deploy/yarn/YarnClusterSuite.scala
+ create mode 100644 yarn/src/test/scala/org/apache/spark/deploy/yarn/YarnSparkHadoopUtilSuite.scala
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ ls
+assembly/  build/       CONTRIBUTING.md  dev/     ec2/       extras/    LICENSE                mllib/    pom.xml   python/    repl/  scalastyle-config.xml  streaming/  unsafe/
+bagel/     CHANGES.txt  core/            docker/  examples/  graphx/    licenses/              network/  project/  R/         sbin/  spark-dev/             tools/      yarn/
+bin/       conf/        data/            docs/    external/  launcher/  make-distribution.sh*  NOTICE    pylintrc  README.md  sbt/   sql/                   tox.ini
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git push origin master
+fatal: 'origin' does not appear to be a git repository
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git remote add origin https://github.com/vishnoiashish/spark-dev.git
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git push -u origin master
+Counting objects: 7980, done.
+Delta compression using up to 4 threads.
+Compressing objects: 100% (6789/6789), done.
+Writing objects: 100% (7980/7980), 12.17 MiB | 594.00 KiB/s, done.
+Total 7980 (delta 1304), reused 0 (delta 0)
+remote: Resolving deltas: 100% (1304/1304), done.
+To https://github.com/vishnoiashish/spark-dev.git
+ * [new branch]      master -> master
+Branch master set up to track remote branch master from origin.
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git branch -b ashish1
+error: unknown switch `b'
+usage: git branch [<options>] [-r | -a] [--merged | --no-merged]
+   or: git branch [<options>] [-l] [-f] <branch-name> [<start-point>]
+   or: git branch [<options>] [-r] (-d | -D) <branch-name>...
+   or: git branch [<options>] (-m | -M) [<old-branch>] <new-branch>
+   or: git branch [<options>] [-r | -a] [--points-at]
+
+Generic options
+    -v, --verbose         show hash and subject, give twice for upstream branch
+    -q, --quiet           suppress informational messages
+    -t, --track           set up tracking mode (see git-pull(1))
+    --set-upstream        change upstream info
+    -u, --set-upstream-to <upstream>
+                          change the upstream info
+    --unset-upstream      Unset the upstream info
+    --color[=<when>]      use colored output
+    -r, --remotes         act on remote-tracking branches
+    --contains <commit>   print only branches that contain the commit
+    --abbrev[=<n>]        use <n> digits to display SHA-1s
+
+Specific git-branch actions:
+    -a, --all             list both remote-tracking and local branches
+    -d, --delete          delete fully merged branch
+    -D                    delete branch (even if not merged)
+    -m, --move            move/rename a branch and its reflog
+    -M                    move/rename a branch, even if target exists
+    --list                list branch names
+    -l, --create-reflog   create the branch's reflog
+    --edit-description    edit the description for the branch
+    -f, --force           force creation, move/rename, deletion
+    --merged <commit>     print only branches that are merged
+    --no-merged <commit>  print only branches that are not merged
+    --column[=<style>]    list branches in columns
+    --sort <key>          field name to sort on
+    --points-at <object>  print only branches of the object
+
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git branch ashish1
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git checkout ashish1
+Switched to branch 'ashish1'
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (ashish1)
+$ git commit -m 'new branch created'
+On branch ashish1
+nothing to commit, working tree clean
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (ashish1)
+$ git push origin ashish1
+Total 0 (delta 0), reused 0 (delta 0)
+To https://github.com/vishnoiashish/spark-dev.git
+ * [new branch]      ashish1 -> ashish1
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (ashish1)
+$ ls
+assembly/  build/       CONTRIBUTING.md  dev/     ec2/       extras/    LICENSE                mllib/    pom.xml   python/    repl/  scalastyle-config.xml  streaming/  unsafe/
+bagel/     CHANGES.txt  core/            docker/  examples/  graphx/    licenses/              network/  project/  R/         sbin/  spark-dev/             tools/      yarn/
+bin/       conf/        data/            docs/    external/  launcher/  make-distribution.sh*  NOTICE    pylintrc  README.md  sbt/   sql/                   tox.ini
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (ashish1)
+$ vi CHANGES.txt
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (ashish1)
+$ git checkout master
+M       CHANGES.txt
+Switched to branch 'master'
+Your branch is up-to-date with 'origin/master'.
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ cd CHANGES.txt
+bash: cd: CHANGES.txt: Not a directory
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ vi CHANGES.txt
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ ls -ltr
+total 1232
+-rw-r--r-- 1 Ashish 197609    848 Oct  1  2016 tox.ini
+-rw-r--r-- 1 Ashish 197609  11826 Oct  1  2016 scalastyle-config.xml
+-rw-r--r-- 1 Ashish 197609   3593 Oct  1  2016 README.md
+-rw-r--r-- 1 Ashish 197609  13991 Oct  1  2016 pylintrc
+-rw-r--r-- 1 Ashish 197609  88046 Oct  1  2016 pom.xml
+-rw-r--r-- 1 Ashish 197609  23158 Oct  1  2016 NOTICE
+-rwxr-xr-x 1 Ashish 197609   8532 Oct  1  2016 make-distribution.sh*
+-rw-r--r-- 1 Ashish 197609  17356 Oct  1  2016 LICENSE
+-rw-r--r-- 1 Ashish 197609    988 Oct  1  2016 CONTRIBUTING.md
+drwxr-xr-x 1 Ashish 197609      0 Jul  4 00:09 R/
+drwxr-xr-x 1 Ashish 197609      0 Jul  4 00:09 assembly/
+drwxr-xr-x 1 Ashish 197609      0 Jul  4 00:09 bagel/
+drwxr-xr-x 1 Ashish 197609      0 Jul  4 00:09 bin/
+drwxr-xr-x 1 Ashish 197609      0 Jul  4 00:09 build/
+drwxr-xr-x 1 Ashish 197609      0 Jul  4 00:09 conf/
+drwxr-xr-x 1 Ashish 197609      0 Jul  4 00:09 core/
+drwxr-xr-x 1 Ashish 197609      0 Jul  4 00:09 data/
+drwxr-xr-x 1 Ashish 197609      0 Jul  4 00:09 dev/
+drwxr-xr-x 1 Ashish 197609      0 Jul  4 00:09 docker/
+drwxr-xr-x 1 Ashish 197609      0 Jul  4 00:09 docs/
+drwxr-xr-x 1 Ashish 197609      0 Jul  4 00:09 ec2/
+drwxr-xr-x 1 Ashish 197609      0 Jul  4 00:09 examples/
+drwxr-xr-x 1 Ashish 197609      0 Jul  4 00:09 external/
+drwxr-xr-x 1 Ashish 197609      0 Jul  4 00:09 extras/
+drwxr-xr-x 1 Ashish 197609      0 Jul  4 00:09 graphx/
+drwxr-xr-x 1 Ashish 197609      0 Jul  4 00:09 launcher/
+drwxr-xr-x 1 Ashish 197609      0 Jul  4 00:09 licenses/
+drwxr-xr-x 1 Ashish 197609      0 Jul  4 00:09 mllib/
+drwxr-xr-x 1 Ashish 197609      0 Jul  4 00:10 network/
+drwxr-xr-x 1 Ashish 197609      0 Jul  4 00:10 project/
+drwxr-xr-x 1 Ashish 197609      0 Jul  4 00:10 python/
+drwxr-xr-x 1 Ashish 197609      0 Jul  4 00:10 repl/
+drwxr-xr-x 1 Ashish 197609      0 Jul  4 00:10 sbin/
+drwxr-xr-x 1 Ashish 197609      0 Jul  4 00:10 sbt/
+drwxr-xr-x 1 Ashish 197609      0 Jul  4 00:10 sql/
+drwxr-xr-x 1 Ashish 197609      0 Jul  4 00:10 streaming/
+drwxr-xr-x 1 Ashish 197609      0 Jul  4 00:10 tools/
+drwxr-xr-x 1 Ashish 197609      0 Jul  4 00:10 unsafe/
+drwxr-xr-x 1 Ashish 197609      0 Jul  4 00:10 yarn/
+drwxr-xr-x 1 Ashish 197609      0 Jul  4 00:14 spark-dev/
+-rw-r--r-- 1 Ashish 197609 975906 Jul  4 00:36 CHANGES.txt
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ vi CHANGES.txt
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git add CHANGES.txt
+warning: LF will be replaced by CRLF in CHANGES.txt.
+The file will have its original line endings in your working directory.
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git commit -m 'CHANGES.txt updated with new date'
+[master 9d056b6] CHANGES.txt updated with new date
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git push origin master
+Counting objects: 3, done.
+Delta compression using up to 4 threads.
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 403 bytes | 0 bytes/s, done.
+Total 3 (delta 2), reused 0 (delta 0)
+remote: Resolving deltas: 100% (2/2), completed with 2 local objects.
+To https://github.com/vishnoiashish/spark-dev.git
+   1d114d8..9d056b6  master -> master
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ ls
+assembly/  build/       CONTRIBUTING.md  dev/     ec2/       extras/    LICENSE                mllib/    pom.xml   python/    repl/  scalastyle-config.xml  streaming/  unsafe/
+bagel/     CHANGES.txt  core/            docker/  examples/  graphx/    licenses/              network/  project/  R/         sbin/  spark-dev/             tools/      yarn/
+bin/       conf/        data/            docs/    external/  launcher/  make-distribution.sh*  NOTICE    pylintrc  README.md  sbt/   sql/                   tox.ini
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ VI NOTICE
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git add NOTICE
+warning: LF will be replaced by CRLF in NOTICE.
+The file will have its original line endings in your working directory.
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git commmit -m " NOTICE UPDATED ON 4TH JULY"
+git: 'commmit' is not a git command. See 'git --help'.
+
+Did you mean this?
+        commit
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git commit -m " NOTICE UPDATED ON 4TH JULY"
+[master ca652e9]  NOTICE UPDATED ON 4TH JULY
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git push origin master
+Counting objects: 3, done.
+Delta compression using up to 4 threads.
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 363 bytes | 0 bytes/s, done.
+Total 3 (delta 2), reused 0 (delta 0)
+remote: Resolving deltas: 100% (2/2), completed with 2 local objects.
+To https://github.com/vishnoiashish/spark-dev.git
+   9d056b6..ca652e9  master -> master
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ ls
+assembly/  build/       CONTRIBUTING.md  dev/     ec2/       extras/    LICENSE                mllib/    pom.xml   python/    repl/  scalastyle-config.xml  streaming/  unsafe/
+bagel/     CHANGES.txt  core/            docker/  examples/  graphx/    licenses/              network/  project/  R/         sbin/  spark-dev/             tools/      yarn/
+bin/       conf/        data/            docs/    external/  launcher/  make-distribution.sh*  NOTICE    pylintrc  README.md  sbt/   sql/                   tox.ini
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ cd ..
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev (tree_ppm)
+$ ls
+spark-branch-1.5/  spark-branch-1.5.zip
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev (tree_ppm)
+$ cd spark-branch-1.5
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ ls
+assembly/  build/       CONTRIBUTING.md  dev/     ec2/       extras/    LICENSE                mllib/    pom.xml   python/    repl/  scalastyle-config.xml  streaming/  unsafe/
+bagel/     CHANGES.txt  core/            docker/  examples/  graphx/    licenses/              network/  project/  R/         sbin/  spark-dev/             tools/      yarn/
+bin/       conf/        data/            docs/    external/  launcher/  make-distribution.sh*  NOTICE    pylintrc  README.md  sbt/   sql/                   tox.ini
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git remote add origin https://github.com/practice-vishnoi/dev-spark1.git
+fatal: remote origin already exists.
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git remote set-url origin https://github.com/practice-vishnoi/dev-spark1.git
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git push -u origin master
+remote: Repository not found.
+fatal: repository 'https://github.com/practice-vishnoi/dev-spark1.git/' not found
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git remote set-url origin https://github.com/practice-vishnoi/dev-spark-1.git
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git push -u origin master
+To https://github.com/practice-vishnoi/dev-spark-1.git
+ ! [rejected]        master -> master (fetch first)
+error: failed to push some refs to 'https://github.com/practice-vishnoi/dev-spark-1.git'
+hint: Updates were rejected because the remote contains work that you do
+hint: not have locally. This is usually caused by another repository pushing
+hint: to the same ref. You may want to first integrate the remote changes
+hint: (e.g., 'git pull ...') before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git pull
+warning: no common commits
+remote: Counting objects: 3, done.
+remote: Total 3 (delta 0), reused 0 (delta 0), pack-reused 0
+Unpacking objects: 100% (3/3), done.
+From https://github.com/practice-vishnoi/dev-spark-1
+ + ca652e9...e13fb6f master     -> origin/master  (forced update)
+Auto packing the repository in background for optimum performance.
+See "git help gc" for manual housekeeping.
+Counting objects: 7989, done.
+Delta compression using up to 4 threads.
+Compressing objects: 100% (6796/6796), done.
+Writing objects: 100% (7989/7989), done.
+Total 7989 (delta 1306), reused 0 (delta 0)
+Removing duplicate objects: 100% (256/256), done.
+fatal: refusing to merge unrelated histories
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ ls
+assembly/  build/       CONTRIBUTING.md  dev/     ec2/       extras/    LICENSE                mllib/    pom.xml   python/    repl/  scalastyle-config.xml  streaming/  unsafe/
+bagel/     CHANGES.txt  core/            docker/  examples/  graphx/    licenses/              network/  project/  R/         sbin/  spark-dev/             tools/      yarn/
+bin/       conf/        data/            docs/    external/  launcher/  make-distribution.sh*  NOTICE    pylintrc  README.md  sbt/   sql/                   tox.ini
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git push -u origin master
+To https://github.com/practice-vishnoi/dev-spark-1.git
+ ! [rejected]        master -> master (non-fast-forward)
+error: failed to push some refs to 'https://github.com/practice-vishnoi/dev-spark-1.git'
+hint: Updates were rejected because the tip of your current branch is behind
+hint: its remote counterpart. Integrate the remote changes (e.g.
+hint: 'git pull ...') before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git pull --rebase origin master
+From https://github.com/practice-vishnoi/dev-spark-1
+ * branch            master     -> FETCH_HEAD
+First, rewinding head to replay your work on top of it...
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git push -u origin master
+Branch master set up to track remote branch master from origin.
+Everything up-to-date
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ ls
+README.md  spark-dev/
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ cd .
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ ls
+README.md  spark-dev/
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ cd ..
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev (tree_ppm)
+$ ls
+spark-branch-1.5/  spark-branch-1.5.zip
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev (tree_ppm)
+$ cd spar-branch-1.5
+bash: cd: spar-branch-1.5: No such file or directory
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev (tree_ppm)
+$ cd spark-branch-1.5
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ ls
+README.md  spark-dev/
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ cd spark-dev
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5/spark-dev (master)
+$ ls
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5/spark-dev (master)
+$ cd ..
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ ls -ltr
+total 1
+drwxr-xr-x 1 Ashish 197609  0 Jul  4 00:14 spark-dev/
+-rw-r--r-- 1 Ashish 197609 13 Jul  4 12:21 README.md
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git reflog
+e13fb6f HEAD@{0}: rebase finished: returning to refs/heads/master
+e13fb6f HEAD@{1}: pull --rebase origin master: checkout e13fb6f6c17514445364639ff43a3facaddd4713
+ca652e9 HEAD@{2}: commit: NOTICE UPDATED ON 4TH JULY
+9d056b6 HEAD@{3}: commit: CHANGES.txt updated with new date
+1d114d8 HEAD@{4}: checkout: moving from ashish1 to master
+1d114d8 HEAD@{5}: checkout: moving from master to ashish1
+1d114d8 HEAD@{6}: commit (initial): added all files in spark-dev
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git reset --hard HEAD@{2}
+Checking out files: 100% (13074/13074), done.
+HEAD is now at ca652e9  NOTICE UPDATED ON 4TH JULY
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ ls -ltr
+total 1260
+drwxr-xr-x 1 Ashish 197609       0 Jul  4 00:14 spark-dev/
+-rw-r--r-- 1 Ashish 197609 1001428 Jul  4 12:35 CHANGES.txt
+-rw-r--r-- 1 Ashish 197609    1004 Jul  4 12:35 CONTRIBUTING.md
+-rw-r--r-- 1 Ashish 197609   17650 Jul  4 12:35 LICENSE
+-rw-r--r-- 1 Ashish 197609   23799 Jul  4 12:35 NOTICE
+drwxr-xr-x 1 Ashish 197609       0 Jul  4 12:35 R/
+-rw-r--r-- 1 Ashish 197609    3691 Jul  4 12:35 README.md
+drwxr-xr-x 1 Ashish 197609       0 Jul  4 12:35 assembly/
+drwxr-xr-x 1 Ashish 197609       0 Jul  4 12:35 bagel/
+drwxr-xr-x 1 Ashish 197609       0 Jul  4 12:35 bin/
+drwxr-xr-x 1 Ashish 197609       0 Jul  4 12:35 build/
+drwxr-xr-x 1 Ashish 197609       0 Jul  4 12:35 conf/
+drwxr-xr-x 1 Ashish 197609       0 Jul  4 12:35 core/
+drwxr-xr-x 1 Ashish 197609       0 Jul  4 12:35 data/
+drwxr-xr-x 1 Ashish 197609       0 Jul  4 12:35 dev/
+drwxr-xr-x 1 Ashish 197609       0 Jul  4 12:35 docker/
+drwxr-xr-x 1 Ashish 197609       0 Jul  4 12:35 docs/
+drwxr-xr-x 1 Ashish 197609       0 Jul  4 12:35 ec2/
+drwxr-xr-x 1 Ashish 197609       0 Jul  4 12:35 examples/
+drwxr-xr-x 1 Ashish 197609       0 Jul  4 12:35 external/
+drwxr-xr-x 1 Ashish 197609       0 Jul  4 12:35 extras/
+drwxr-xr-x 1 Ashish 197609       0 Jul  4 12:35 graphx/
+drwxr-xr-x 1 Ashish 197609       0 Jul  4 12:35 launcher/
+drwxr-xr-x 1 Ashish 197609       0 Jul  4 12:35 licenses/
+-rwxr-xr-x 1 Ashish 197609    8799 Jul  4 12:35 make-distribution.sh*
+drwxr-xr-x 1 Ashish 197609       0 Jul  4 12:35 mllib/
+drwxr-xr-x 1 Ashish 197609       0 Jul  4 12:35 network/
+-rw-r--r-- 1 Ashish 197609   90546 Jul  4 12:35 pom.xml
+drwxr-xr-x 1 Ashish 197609       0 Jul  4 12:35 project/
+-rw-r--r-- 1 Ashish 197609   14395 Jul  4 12:35 pylintrc
+drwxr-xr-x 1 Ashish 197609       0 Jul  4 12:35 python/
+drwxr-xr-x 1 Ashish 197609       0 Jul  4 12:35 repl/
+drwxr-xr-x 1 Ashish 197609       0 Jul  4 12:35 sbin/
+drwxr-xr-x 1 Ashish 197609       0 Jul  4 12:35 sbt/
+-rw-r--r-- 1 Ashish 197609   12064 Jul  4 12:35 scalastyle-config.xml
+drwxr-xr-x 1 Ashish 197609       0 Jul  4 12:35 sql/
+drwxr-xr-x 1 Ashish 197609       0 Jul  4 12:36 streaming/
+drwxr-xr-x 1 Ashish 197609       0 Jul  4 12:36 tools/
+-rw-r--r-- 1 Ashish 197609     866 Jul  4 12:36 tox.ini
+drwxr-xr-x 1 Ashish 197609       0 Jul  4 12:36 unsafe/
+drwxr-xr-x 1 Ashish 197609       0 Jul  4 12:36 yarn/
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git push -u origin master
+To https://github.com/practice-vishnoi/dev-spark-1.git
+ ! [rejected]        master -> master (non-fast-forward)
+error: failed to push some refs to 'https://github.com/practice-vishnoi/dev-spark-1.git'
+hint: Updates were rejected because the tip of your current branch is behind
+hint: its remote counterpart. Integrate the remote changes (e.g.
+hint: 'git pull ...') before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git add .
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git commit -m "spark file loaded"
+On branch master
+Your branch and 'origin/master' have diverged,
+and have 3 and 1 different commits each, respectively.
+  (use "git pull" to merge the remote branch into yours)
+nothing to commit, working tree clean
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git push origin master
+To https://github.com/practice-vishnoi/dev-spark-1.git
+ ! [rejected]        master -> master (non-fast-forward)
+error: failed to push some refs to 'https://github.com/practice-vishnoi/dev-spark-1.git'
+hint: Updates were rejected because the tip of your current branch is behind
+hint: its remote counterpart. Integrate the remote changes (e.g.
+hint: 'git pull ...') before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git merge origin master
+merge: origin - not something we can merge
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git merge
+fatal: refusing to merge unrelated histories
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git pull --allow-unrelated-histories
+Auto-merging README.md
+CONFLICT (add/add): Merge conflict in README.md
+Automatic merge failed; fix conflicts and then commit the result.
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master|MERGING)
+$ git mergetool
+
+This message is displayed because 'merge.tool' is not configured.
+See 'git mergetool --tool-help' or 'git help config' for more details.
+'git mergetool' will now attempt to use one of the following tools:
+opendiff kdiff3 tkdiff xxdiff meld tortoisemerge gvimdiff diffuse diffmerge ecmerge p4merge araxis bc codecompare emerge vimdiff
+Merging:
+README.md
+
+Normal merge conflict for 'README.md':
+  {local}: created file
+  {remote}: created file
+Hit return to start merge resolution tool (vimdiff):
+3 files to edit
+README.md seems unchanged.
+Was the merge successful [y/n]? y
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master|MERGING)
+$ git status
+On branch master
+Your branch and 'origin/master' have diverged,
+and have 3 and 1 different commits each, respectively.
+  (use "git pull" to merge the remote branch into yours)
+All conflicts fixed but you are still merging.
+  (use "git commit" to conclude merge)
+
+Changes to be committed:
+
+        modified:   README.md
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+        README.md.orig
+
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master|MERGING)
+$ git add README.md
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master|MERGING)
+$ git commit -m 'README.md committed after conflickt resolution'
+[master b35e35a] README.md committed after conflickt resolution
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git push origin master
+Counting objects: 7989, done.
+Delta compression using up to 4 threads.
+Compressing objects: 100% (5492/5492), done.
+Writing objects: 100% (7989/7989), 12.17 MiB | 662.00 KiB/s, done.
+Total 7989 (delta 1308), reused 7984 (delta 1306)
+remote: Resolving deltas: 100% (1308/1308), done.
+To https://github.com/practice-vishnoi/dev-spark-1.git
+   e13fb6f..b35e35a  master -> master
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ vi README.md
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git mergetool
+
+This message is displayed because 'merge.tool' is not configured.
+See 'git mergetool --tool-help' or 'git help config' for more details.
+'git mergetool' will now attempt to use one of the following tools:
+opendiff kdiff3 tkdiff xxdiff meld tortoisemerge gvimdiff diffuse diffmerge ecmerge p4merge araxis bc codecompare emerge vimdiff
+No files need merging
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ vi README.md
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git add README.md
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git commit -m ' README.md is updated '
+[master f4edab0]  README.md is updated
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git push origin master
+Counting objects: 3, done.
+Delta compression using up to 4 threads.
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 340 bytes | 0 bytes/s, done.
+Total 3 (delta 2), reused 0 (delta 0)
+remote: Resolving deltas: 100% (2/2), completed with 2 local objects.
+To https://github.com/practice-vishnoi/dev-spark-1.git
+   b35e35a..f4edab0  master -> master
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git branch -b testbranchmerge
+error: unknown switch `b'
+usage: git branch [<options>] [-r | -a] [--merged | --no-merged]
+   or: git branch [<options>] [-l] [-f] <branch-name> [<start-point>]
+   or: git branch [<options>] [-r] (-d | -D) <branch-name>...
+   or: git branch [<options>] (-m | -M) [<old-branch>] <new-branch>
+   or: git branch [<options>] [-r | -a] [--points-at]
+
+Generic options
+    -v, --verbose         show hash and subject, give twice for upstream branch
+    -q, --quiet           suppress informational messages
+    -t, --track           set up tracking mode (see git-pull(1))
+    --set-upstream        change upstream info
+    -u, --set-upstream-to <upstream>
+                          change the upstream info
+    --unset-upstream      Unset the upstream info
+    --color[=<when>]      use colored output
+    -r, --remotes         act on remote-tracking branches
+    --contains <commit>   print only branches that contain the commit
+    --abbrev[=<n>]        use <n> digits to display SHA-1s
+
+Specific git-branch actions:
+    -a, --all             list both remote-tracking and local branches
+    -d, --delete          delete fully merged branch
+    -D                    delete branch (even if not merged)
+    -m, --move            move/rename a branch and its reflog
+    -M                    move/rename a branch, even if target exists
+    --list                list branch names
+    -l, --create-reflog   create the branch's reflog
+    --edit-description    edit the description for the branch
+    -f, --force           force creation, move/rename, deletion
+    --merged <commit>     print only branches that are merged
+    --no-merged <commit>  print only branches that are not merged
+    --column[=<style>]    list branches in columns
+    --sort <key>          field name to sort on
+    --points-at <object>  print only branches of the object
+
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git branch --b testbranchmerge
+error: unknown option `b'
+usage: git branch [<options>] [-r | -a] [--merged | --no-merged]
+   or: git branch [<options>] [-l] [-f] <branch-name> [<start-point>]
+   or: git branch [<options>] [-r] (-d | -D) <branch-name>...
+   or: git branch [<options>] (-m | -M) [<old-branch>] <new-branch>
+   or: git branch [<options>] [-r | -a] [--points-at]
+
+Generic options
+    -v, --verbose         show hash and subject, give twice for upstream branch
+    -q, --quiet           suppress informational messages
+    -t, --track           set up tracking mode (see git-pull(1))
+    --set-upstream        change upstream info
+    -u, --set-upstream-to <upstream>
+                          change the upstream info
+    --unset-upstream      Unset the upstream info
+    --color[=<when>]      use colored output
+    -r, --remotes         act on remote-tracking branches
+    --contains <commit>   print only branches that contain the commit
+    --abbrev[=<n>]        use <n> digits to display SHA-1s
+
+Specific git-branch actions:
+    -a, --all             list both remote-tracking and local branches
+    -d, --delete          delete fully merged branch
+    -D                    delete branch (even if not merged)
+    -m, --move            move/rename a branch and its reflog
+    -M                    move/rename a branch, even if target exists
+    --list                list branch names
+    -l, --create-reflog   create the branch's reflog
+    --edit-description    edit the description for the branch
+    -f, --force           force creation, move/rename, deletion
+    --merged <commit>     print only branches that are merged
+    --no-merged <commit>  print only branches that are not merged
+    --column[=<style>]    list branches in columns
+    --sort <key>          field name to sort on
+    --points-at <object>  print only branches of the object
+
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git checkout --b testbranchmerge
+error: unknown option `b'
+usage: git checkout [<options>] <branch>
+   or: git checkout [<options>] [<branch>] -- <file>...
+
+    -q, --quiet           suppress progress reporting
+    -b <branch>           create and checkout a new branch
+    -B <branch>           create/reset and checkout a branch
+    -l                    create reflog for new branch
+    --detach              detach HEAD at named commit
+    -t, --track           set upstream info for new branch
+    --orphan <new-branch>
+                          new unparented branch
+    -2, --ours            checkout our version for unmerged files
+    -3, --theirs          checkout their version for unmerged files
+    -f, --force           force checkout (throw away local modifications)
+    -m, --merge           perform a 3-way merge with the new branch
+    --overwrite-ignore    update ignored files (default)
+    --conflict <style>    conflict style (merge or diff3)
+    -p, --patch           select hunks interactively
+    --ignore-skip-worktree-bits
+                          do not limit pathspecs to sparse entries only
+    --ignore-other-worktrees
+                          do not check if another worktree is holding the given ref
+    --progress            force progress reporting
+
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git checkout -b testbranchmerge
+Switched to a new branch 'testbranchmerge'
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (testbranchmerge)
+$ git push origin testbranchmerge
+Total 0 (delta 0), reused 0 (delta 0)
+To https://github.com/practice-vishnoi/dev-spark-1.git
+ * [new branch]      testbranchmerge -> testbranchmerge
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (testbranchmerge)
+$ git rm --chanched
+error: unknown option `chanched'
+usage: git rm [<options>] [--] <file>...
+
+    -n, --dry-run         dry run
+    -q, --quiet           do not list removed files
+    --cached              only remove from the index
+    -f, --force           override the up-to-date check
+    -r                    allow recursive removal
+    --ignore-unmatch      exit with a zero status even if nothing matched
+
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (testbranchmerge)
+$ git rm --cached licenses
+fatal: not removing 'licenses' recursively without -r
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (testbranchmerge)
+$ git rm -r --cached licenses
+rm 'licenses/LICENSE-AnchorJS.txt'
+rm 'licenses/LICENSE-DPark.txt'
+rm 'licenses/LICENSE-Mockito.txt'
+rm 'licenses/LICENSE-SnapTree.txt'
+rm 'licenses/LICENSE-antlr.txt'
+rm 'licenses/LICENSE-boto.txt'
+rm 'licenses/LICENSE-cloudpickle.txt'
+rm 'licenses/LICENSE-d3.min.js.txt'
+rm 'licenses/LICENSE-dagre-d3.txt'
+rm 'licenses/LICENSE-f2j.txt'
+rm 'licenses/LICENSE-graphlib-dot.txt'
+rm 'licenses/LICENSE-heapq.txt'
+rm 'licenses/LICENSE-javolution.txt'
+rm 'licenses/LICENSE-jbcrypt.txt'
+rm 'licenses/LICENSE-jblas.txt'
+rm 'licenses/LICENSE-jline.txt'
+rm 'licenses/LICENSE-jpmml-model.txt'
+rm 'licenses/LICENSE-jquery.txt'
+rm 'licenses/LICENSE-junit-interface.txt'
+rm 'licenses/LICENSE-kryo.txt'
+rm 'licenses/LICENSE-minlog.txt'
+rm 'licenses/LICENSE-netlib.txt'
+rm 'licenses/LICENSE-paranamer.txt'
+rm 'licenses/LICENSE-protobuf.txt'
+rm 'licenses/LICENSE-py4j.txt'
+rm 'licenses/LICENSE-pyrolite.txt'
+rm 'licenses/LICENSE-reflectasm.txt'
+rm 'licenses/LICENSE-sbt-launch-lib.txt'
+rm 'licenses/LICENSE-scala.txt'
+rm 'licenses/LICENSE-scalacheck.txt'
+rm 'licenses/LICENSE-scopt.txt'
+rm 'licenses/LICENSE-slf4j.txt'
+rm 'licenses/LICENSE-sorttable.js.txt'
+rm 'licenses/LICENSE-spire.txt'
+rm 'licenses/LICENSE-xmlenc.txt'
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (testbranchmerge)
+$ ls
+assembly/  build/       CONTRIBUTING.md  dev/     ec2/       extras/    LICENSE                mllib/    pom.xml   python/    README.md.orig  sbt/                   sql/        tox.ini
+bagel/     CHANGES.txt  core/            docker/  examples/  graphx/    licenses/              network/  project/  R/         repl/           scalastyle-config.xml  streaming/  unsafe/
+bin/       conf/        data/            docs/    external/  launcher/  make-distribution.sh*  NOTICE    pylintrc  README.md  sbin/           spark-dev/             tools/      yarn/
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (testbranchmerge)
+$ git push
+fatal: The current branch testbranchmerge has no upstream branch.
+To push the current branch and set the remote as upstream, use
+
+    git push --set-upstream origin testbranchmerge
+
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (testbranchmerge)
+$ git push origin
+fatal: The current branch testbranchmerge has no upstream branch.
+To push the current branch and set the remote as upstream, use
+
+    git push --set-upstream origin testbranchmerge
+
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (testbranchmerge)
+$ git push -u origin
+fatal: The current branch testbranchmerge has no upstream branch.
+To push the current branch and set the remote as upstream, use
+
+    git push --set-upstream origin testbranchmerge
+
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (testbranchmerge)
+$ git push -u origin testbranchmerge
+Branch testbranchmerge set up to track remote branch testbranchmerge from origin.
+Everything up-to-date
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (testbranchmerge)
+$ git push origin testbranchmerge
+Everything up-to-date
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (testbranchmerge)
+$ git commit -m 'licenses removed'
+[testbranchmerge 65d2eb6] licenses removed
+ 35 files changed, 1061 deletions(-)
+ delete mode 100644 licenses/LICENSE-AnchorJS.txt
+ delete mode 100644 licenses/LICENSE-DPark.txt
+ delete mode 100644 licenses/LICENSE-Mockito.txt
+ delete mode 100644 licenses/LICENSE-SnapTree.txt
+ delete mode 100644 licenses/LICENSE-antlr.txt
+ delete mode 100644 licenses/LICENSE-boto.txt
+ delete mode 100644 licenses/LICENSE-cloudpickle.txt
+ delete mode 100644 licenses/LICENSE-d3.min.js.txt
+ delete mode 100644 licenses/LICENSE-dagre-d3.txt
+ delete mode 100644 licenses/LICENSE-f2j.txt
+ delete mode 100644 licenses/LICENSE-graphlib-dot.txt
+ delete mode 100644 licenses/LICENSE-heapq.txt
+ delete mode 100644 licenses/LICENSE-javolution.txt
+ delete mode 100644 licenses/LICENSE-jbcrypt.txt
+ delete mode 100644 licenses/LICENSE-jblas.txt
+ delete mode 100644 licenses/LICENSE-jline.txt
+ delete mode 100644 licenses/LICENSE-jpmml-model.txt
+ delete mode 100644 licenses/LICENSE-jquery.txt
+ delete mode 100644 licenses/LICENSE-junit-interface.txt
+ delete mode 100644 licenses/LICENSE-kryo.txt
+ delete mode 100644 licenses/LICENSE-minlog.txt
+ delete mode 100644 licenses/LICENSE-netlib.txt
+ delete mode 100644 licenses/LICENSE-paranamer.txt
+ delete mode 100644 licenses/LICENSE-protobuf.txt
+ delete mode 100644 licenses/LICENSE-py4j.txt
+ delete mode 100644 licenses/LICENSE-pyrolite.txt
+ delete mode 100644 licenses/LICENSE-reflectasm.txt
+ delete mode 100644 licenses/LICENSE-sbt-launch-lib.txt
+ delete mode 100644 licenses/LICENSE-scala.txt
+ delete mode 100644 licenses/LICENSE-scalacheck.txt
+ delete mode 100644 licenses/LICENSE-scopt.txt
+ delete mode 100644 licenses/LICENSE-slf4j.txt
+ delete mode 100644 licenses/LICENSE-sorttable.js.txt
+ delete mode 100644 licenses/LICENSE-spire.txt
+ delete mode 100644 licenses/LICENSE-xmlenc.txt
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (testbranchmerge)
+$ git push origin testbranchmerge
+Counting objects: 2, done.
+Delta compression using up to 4 threads.
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (2/2), 235 bytes | 0 bytes/s, done.
+Total 2 (delta 1), reused 0 (delta 0)
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+To https://github.com/practice-vishnoi/dev-spark-1.git
+   f4edab0..65d2eb6  testbranchmerge -> testbranchmerge
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (testbranchmerge)
+$ ls
+assembly/  build/       CONTRIBUTING.md  dev/     ec2/       extras/    LICENSE                mllib/    pom.xml   python/    README.md.orig  sbt/                   sql/        tox.ini
+bagel/     CHANGES.txt  core/            docker/  examples/  graphx/    licenses/              network/  project/  R/         repl/           scalastyle-config.xml  streaming/  unsafe/
+bin/       conf/        data/            docs/    external/  launcher/  make-distribution.sh*  NOTICE    pylintrc  README.md  sbin/           spark-dev/             tools/      yarn/
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (testbranchmerge)
+$ git push origin testbranchmerge
+Everything up-to-date
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (testbranchmerge)
+$ git add licenses
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (testbranchmerge)
+$ git push origin testbranchmerge
+Everything up-to-date
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (testbranchmerge)
+$ git commit -m 'licenses added to branch'
+[testbranchmerge c438764] licenses added to branch
+ 35 files changed, 1061 insertions(+)
+ create mode 100644 licenses/LICENSE-AnchorJS.txt
+ create mode 100644 licenses/LICENSE-DPark.txt
+ create mode 100644 licenses/LICENSE-Mockito.txt
+ create mode 100644 licenses/LICENSE-SnapTree.txt
+ create mode 100644 licenses/LICENSE-antlr.txt
+ create mode 100644 licenses/LICENSE-boto.txt
+ create mode 100644 licenses/LICENSE-cloudpickle.txt
+ create mode 100644 licenses/LICENSE-d3.min.js.txt
+ create mode 100644 licenses/LICENSE-dagre-d3.txt
+ create mode 100644 licenses/LICENSE-f2j.txt
+ create mode 100644 licenses/LICENSE-graphlib-dot.txt
+ create mode 100644 licenses/LICENSE-heapq.txt
+ create mode 100644 licenses/LICENSE-javolution.txt
+ create mode 100644 licenses/LICENSE-jbcrypt.txt
+ create mode 100644 licenses/LICENSE-jblas.txt
+ create mode 100644 licenses/LICENSE-jline.txt
+ create mode 100644 licenses/LICENSE-jpmml-model.txt
+ create mode 100644 licenses/LICENSE-jquery.txt
+ create mode 100644 licenses/LICENSE-junit-interface.txt
+ create mode 100644 licenses/LICENSE-kryo.txt
+ create mode 100644 licenses/LICENSE-minlog.txt
+ create mode 100644 licenses/LICENSE-netlib.txt
+ create mode 100644 licenses/LICENSE-paranamer.txt
+ create mode 100644 licenses/LICENSE-protobuf.txt
+ create mode 100644 licenses/LICENSE-py4j.txt
+ create mode 100644 licenses/LICENSE-pyrolite.txt
+ create mode 100644 licenses/LICENSE-reflectasm.txt
+ create mode 100644 licenses/LICENSE-sbt-launch-lib.txt
+ create mode 100644 licenses/LICENSE-scala.txt
+ create mode 100644 licenses/LICENSE-scalacheck.txt
+ create mode 100644 licenses/LICENSE-scopt.txt
+ create mode 100644 licenses/LICENSE-slf4j.txt
+ create mode 100644 licenses/LICENSE-sorttable.js.txt
+ create mode 100644 licenses/LICENSE-spire.txt
+ create mode 100644 licenses/LICENSE-xmlenc.txt
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (testbranchmerge)
+$ git push origin testbranchmerge
+Counting objects: 35, done.
+Delta compression using up to 4 threads.
+Compressing objects: 100% (17/17), done.
+Writing objects: 100% (35/35), 19.16 KiB | 0 bytes/s, done.
+Total 35 (delta 19), reused 33 (delta 18)
+remote: Resolving deltas: 100% (19/19), completed with 1 local object.
+To https://github.com/practice-vishnoi/dev-spark-1.git
+   65d2eb6..c438764  testbranchmerge -> testbranchmerge
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (testbranchmerge)
+$ git rm -r --cached licenses
+rm 'licenses/LICENSE-AnchorJS.txt'
+rm 'licenses/LICENSE-DPark.txt'
+rm 'licenses/LICENSE-Mockito.txt'
+rm 'licenses/LICENSE-SnapTree.txt'
+rm 'licenses/LICENSE-antlr.txt'
+rm 'licenses/LICENSE-boto.txt'
+rm 'licenses/LICENSE-cloudpickle.txt'
+rm 'licenses/LICENSE-d3.min.js.txt'
+rm 'licenses/LICENSE-dagre-d3.txt'
+rm 'licenses/LICENSE-f2j.txt'
+rm 'licenses/LICENSE-graphlib-dot.txt'
+rm 'licenses/LICENSE-heapq.txt'
+rm 'licenses/LICENSE-javolution.txt'
+rm 'licenses/LICENSE-jbcrypt.txt'
+rm 'licenses/LICENSE-jblas.txt'
+rm 'licenses/LICENSE-jline.txt'
+rm 'licenses/LICENSE-jpmml-model.txt'
+rm 'licenses/LICENSE-jquery.txt'
+rm 'licenses/LICENSE-junit-interface.txt'
+rm 'licenses/LICENSE-kryo.txt'
+rm 'licenses/LICENSE-minlog.txt'
+rm 'licenses/LICENSE-netlib.txt'
+rm 'licenses/LICENSE-paranamer.txt'
+rm 'licenses/LICENSE-protobuf.txt'
+rm 'licenses/LICENSE-py4j.txt'
+rm 'licenses/LICENSE-pyrolite.txt'
+rm 'licenses/LICENSE-reflectasm.txt'
+rm 'licenses/LICENSE-sbt-launch-lib.txt'
+rm 'licenses/LICENSE-scala.txt'
+rm 'licenses/LICENSE-scalacheck.txt'
+rm 'licenses/LICENSE-scopt.txt'
+rm 'licenses/LICENSE-slf4j.txt'
+rm 'licenses/LICENSE-sorttable.js.txt'
+rm 'licenses/LICENSE-spire.txt'
+rm 'licenses/LICENSE-xmlenc.txt'
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (testbranchmerge)
+$ git commit -m 'licenses removed'
+[testbranchmerge 07f8b1f] licenses removed
+ 35 files changed, 1061 deletions(-)
+ delete mode 100644 licenses/LICENSE-AnchorJS.txt
+ delete mode 100644 licenses/LICENSE-DPark.txt
+ delete mode 100644 licenses/LICENSE-Mockito.txt
+ delete mode 100644 licenses/LICENSE-SnapTree.txt
+ delete mode 100644 licenses/LICENSE-antlr.txt
+ delete mode 100644 licenses/LICENSE-boto.txt
+ delete mode 100644 licenses/LICENSE-cloudpickle.txt
+ delete mode 100644 licenses/LICENSE-d3.min.js.txt
+ delete mode 100644 licenses/LICENSE-dagre-d3.txt
+ delete mode 100644 licenses/LICENSE-f2j.txt
+ delete mode 100644 licenses/LICENSE-graphlib-dot.txt
+ delete mode 100644 licenses/LICENSE-heapq.txt
+ delete mode 100644 licenses/LICENSE-javolution.txt
+ delete mode 100644 licenses/LICENSE-jbcrypt.txt
+ delete mode 100644 licenses/LICENSE-jblas.txt
+ delete mode 100644 licenses/LICENSE-jline.txt
+ delete mode 100644 licenses/LICENSE-jpmml-model.txt
+ delete mode 100644 licenses/LICENSE-jquery.txt
+ delete mode 100644 licenses/LICENSE-junit-interface.txt
+ delete mode 100644 licenses/LICENSE-kryo.txt
+ delete mode 100644 licenses/LICENSE-minlog.txt
+ delete mode 100644 licenses/LICENSE-netlib.txt
+ delete mode 100644 licenses/LICENSE-paranamer.txt
+ delete mode 100644 licenses/LICENSE-protobuf.txt
+ delete mode 100644 licenses/LICENSE-py4j.txt
+ delete mode 100644 licenses/LICENSE-pyrolite.txt
+ delete mode 100644 licenses/LICENSE-reflectasm.txt
+ delete mode 100644 licenses/LICENSE-sbt-launch-lib.txt
+ delete mode 100644 licenses/LICENSE-scala.txt
+ delete mode 100644 licenses/LICENSE-scalacheck.txt
+ delete mode 100644 licenses/LICENSE-scopt.txt
+ delete mode 100644 licenses/LICENSE-slf4j.txt
+ delete mode 100644 licenses/LICENSE-sorttable.js.txt
+ delete mode 100644 licenses/LICENSE-spire.txt
+ delete mode 100644 licenses/LICENSE-xmlenc.txt
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (testbranchmerge)
+$ git push origin testbranchmerge
+Counting objects: 2, done.
+Delta compression using up to 4 threads.
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (2/2), 235 bytes | 0 bytes/s, done.
+Total 2 (delta 1), reused 0 (delta 0)
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+To https://github.com/practice-vishnoi/dev-spark-1.git
+   c438764..07f8b1f  testbranchmerge -> testbranchmerge
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (testbranchmerge)
+$ ls
+assembly/  build/       CONTRIBUTING.md  dev/     ec2/       extras/    LICENSE                mllib/    pom.xml   python/    README.md.orig  sbt/                   sql/        tox.ini
+bagel/     CHANGES.txt  core/            docker/  examples/  graphx/    licenses/              network/  project/  R/         repl/           scalastyle-config.xml  streaming/  unsafe/
+bin/       conf/        data/            docs/    external/  launcher/  make-distribution.sh*  NOTICE    pylintrc  README.md  sbin/           spark-dev/             tools/      yarn/
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (testbranchmerge)
+$ git rm -r licenses
+fatal: pathspec 'licenses' did not match any files
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (testbranchmerge)
+$ ls
+assembly/  build/       CONTRIBUTING.md  dev/     ec2/       extras/    LICENSE                mllib/    pom.xml   python/    README.md.orig  sbt/                   sql/        tox.ini
+bagel/     CHANGES.txt  core/            docker/  examples/  graphx/    licenses/              network/  project/  R/         repl/           scalastyle-config.xml  streaming/  unsafe/
+bin/       conf/        data/            docs/    external/  launcher/  make-distribution.sh*  NOTICE    pylintrc  README.md  sbin/           spark-dev/             tools/      yarn/
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (testbranchmerge)
+$ git rm -r licenses/
+fatal: pathspec 'licenses/' did not match any files
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (testbranchmerge)
+$ git rm -r /licenses
+fatal: C:/Program Files/Git/licenses: 'C:/Program Files/Git/licenses' is outside repository
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (testbranchmerge)
+$ ls
+assembly/  build/       CONTRIBUTING.md  dev/     ec2/       extras/    LICENSE                mllib/    pom.xml   python/    README.md.orig  sbt/                   sql/        tox.ini
+bagel/     CHANGES.txt  core/            docker/  examples/  graphx/    licenses/              network/  project/  R/         repl/           scalastyle-config.xml  streaming/  unsafe/
+bin/       conf/        data/            docs/    external/  launcher/  make-distribution.sh*  NOTICE    pylintrc  README.md  sbin/           spark-dev/             tools/      yarn/
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (testbranchmerge)
+$ git rm  licenses
+fatal: pathspec 'licenses' did not match any files
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (testbranchmerge)
+$ git rm -r licenses
+fatal: pathspec 'licenses' did not match any files
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (testbranchmerge)
+$ ls
+assembly/  build/       CONTRIBUTING.md  dev/     ec2/       extras/    LICENSE                mllib/    pom.xml   python/    README.md.orig  sbt/                   sql/        tox.ini
+bagel/     CHANGES.txt  core/            docker/  examples/  graphx/    licenses/              network/  project/  R/         repl/           scalastyle-config.xml  streaming/  unsafe/
+bin/       conf/        data/            docs/    external/  launcher/  make-distribution.sh*  NOTICE    pylintrc  README.md  sbin/           spark-dev/             tools/      yarn/
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (testbranchmerge)
+$ rm -r licenses
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (testbranchmerge)
+$ ls
+assembly/  build/       CONTRIBUTING.md  dev/     ec2/       extras/    LICENSE                network/  project/  R/              repl/  scalastyle-config.xml  streaming/  unsafe/
+bagel/     CHANGES.txt  core/            docker/  examples/  graphx/    make-distribution.sh*  NOTICE    pylintrc  README.md       sbin/  spark-dev/             tools/      yarn/
+bin/       conf/        data/            docs/    external/  launcher/  mllib/                 pom.xml   python/   README.md.orig  sbt/   sql/                   tox.ini
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (testbranchmerge)
+$ git checkout master
+Switched to branch 'master'
+Your branch is up-to-date with 'origin/master'.
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git merge testbranchmerge
+Updating f4edab0..07f8b1f
+Fast-forward
+ licenses/LICENSE-AnchorJS.txt        |  21 ---
+ licenses/LICENSE-DPark.txt           |  30 ----
+ licenses/LICENSE-Mockito.txt         |  21 ---
+ licenses/LICENSE-SnapTree.txt        |  35 -----
+ licenses/LICENSE-antlr.txt           |   8 -
+ licenses/LICENSE-boto.txt            |  20 ---
+ licenses/LICENSE-cloudpickle.txt     |  28 ----
+ licenses/LICENSE-d3.min.js.txt       |  26 ----
+ licenses/LICENSE-dagre-d3.txt        |  19 ---
+ licenses/LICENSE-f2j.txt             |   8 -
+ licenses/LICENSE-graphlib-dot.txt    |  19 ---
+ licenses/LICENSE-heapq.txt           | 280 -----------------------------------
+ licenses/LICENSE-javolution.txt      |  27 ----
+ licenses/LICENSE-jbcrypt.txt         |  17 ---
+ licenses/LICENSE-jblas.txt           |  31 ----
+ licenses/LICENSE-jline.txt           |  32 ----
+ licenses/LICENSE-jpmml-model.txt     |  10 --
+ licenses/LICENSE-jquery.txt          |   9 --
+ licenses/LICENSE-junit-interface.txt |  24 ---
+ licenses/LICENSE-kryo.txt            |  10 --
+ licenses/LICENSE-minlog.txt          |  10 --
+ licenses/LICENSE-netlib.txt          |  49 ------
+ licenses/LICENSE-paranamer.txt       |  28 ----
+ licenses/LICENSE-protobuf.txt        |  42 ------
+ licenses/LICENSE-py4j.txt            |  27 ----
+ licenses/LICENSE-pyrolite.txt        |  28 ----
+ licenses/LICENSE-reflectasm.txt      |  10 --
+ licenses/LICENSE-sbt-launch-lib.txt  |  26 ----
+ licenses/LICENSE-scala.txt           |  30 ----
+ licenses/LICENSE-scalacheck.txt      |  32 ----
+ licenses/LICENSE-scopt.txt           |  21 ---
+ licenses/LICENSE-slf4j.txt           |  21 ---
+ licenses/LICENSE-sorttable.js.txt    |  16 --
+ licenses/LICENSE-spire.txt           |  19 ---
+ licenses/LICENSE-xmlenc.txt          |  27 ----
+ 35 files changed, 1061 deletions(-)
+ delete mode 100644 licenses/LICENSE-AnchorJS.txt
+ delete mode 100644 licenses/LICENSE-DPark.txt
+ delete mode 100644 licenses/LICENSE-Mockito.txt
+ delete mode 100644 licenses/LICENSE-SnapTree.txt
+ delete mode 100644 licenses/LICENSE-antlr.txt
+ delete mode 100644 licenses/LICENSE-boto.txt
+ delete mode 100644 licenses/LICENSE-cloudpickle.txt
+ delete mode 100644 licenses/LICENSE-d3.min.js.txt
+ delete mode 100644 licenses/LICENSE-dagre-d3.txt
+ delete mode 100644 licenses/LICENSE-f2j.txt
+ delete mode 100644 licenses/LICENSE-graphlib-dot.txt
+ delete mode 100644 licenses/LICENSE-heapq.txt
+ delete mode 100644 licenses/LICENSE-javolution.txt
+ delete mode 100644 licenses/LICENSE-jbcrypt.txt
+ delete mode 100644 licenses/LICENSE-jblas.txt
+ delete mode 100644 licenses/LICENSE-jline.txt
+ delete mode 100644 licenses/LICENSE-jpmml-model.txt
+ delete mode 100644 licenses/LICENSE-jquery.txt
+ delete mode 100644 licenses/LICENSE-junit-interface.txt
+ delete mode 100644 licenses/LICENSE-kryo.txt
+ delete mode 100644 licenses/LICENSE-minlog.txt
+ delete mode 100644 licenses/LICENSE-netlib.txt
+ delete mode 100644 licenses/LICENSE-paranamer.txt
+ delete mode 100644 licenses/LICENSE-protobuf.txt
+ delete mode 100644 licenses/LICENSE-py4j.txt
+ delete mode 100644 licenses/LICENSE-pyrolite.txt
+ delete mode 100644 licenses/LICENSE-reflectasm.txt
+ delete mode 100644 licenses/LICENSE-sbt-launch-lib.txt
+ delete mode 100644 licenses/LICENSE-scala.txt
+ delete mode 100644 licenses/LICENSE-scalacheck.txt
+ delete mode 100644 licenses/LICENSE-scopt.txt
+ delete mode 100644 licenses/LICENSE-slf4j.txt
+ delete mode 100644 licenses/LICENSE-sorttable.js.txt
+ delete mode 100644 licenses/LICENSE-spire.txt
+ delete mode 100644 licenses/LICENSE-xmlenc.txt
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git push origin master
+Total 0 (delta 0), reused 0 (delta 0)
+To https://github.com/practice-vishnoi/dev-spark-1.git
+   f4edab0..07f8b1f  master -> master
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git reflog
+07f8b1f HEAD@{0}: merge testbranchmerge: Fast-forward
+f4edab0 HEAD@{1}: checkout: moving from testbranchmerge to master
+07f8b1f HEAD@{2}: commit: licenses removed
+c438764 HEAD@{3}: commit: licenses added to branch
+65d2eb6 HEAD@{4}: commit: licenses removed
+f4edab0 HEAD@{5}: checkout: moving from master to testbranchmerge
+f4edab0 HEAD@{6}: commit: README.md is updated
+b35e35a HEAD@{7}: commit (merge): README.md committed after conflickt resolution
+ca652e9 HEAD@{8}: reset: moving to HEAD@{2}
+e13fb6f HEAD@{9}: rebase finished: returning to refs/heads/master
+e13fb6f HEAD@{10}: pull --rebase origin master: checkout e13fb6f6c17514445364639ff43a3facaddd4713
+ca652e9 HEAD@{11}: commit: NOTICE UPDATED ON 4TH JULY
+9d056b6 HEAD@{12}: commit: CHANGES.txt updated with new date
+1d114d8 HEAD@{13}: checkout: moving from ashish1 to master
+1d114d8 HEAD@{14}: checkout: moving from master to ashish1
+1d114d8 HEAD@{15}: commit (initial): added all files in spark-dev
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git reset HEAD@{1}
+Unstaged changes after reset:
+D       licenses/LICENSE-AnchorJS.txt
+D       licenses/LICENSE-DPark.txt
+D       licenses/LICENSE-Mockito.txt
+D       licenses/LICENSE-SnapTree.txt
+D       licenses/LICENSE-antlr.txt
+D       licenses/LICENSE-boto.txt
+D       licenses/LICENSE-cloudpickle.txt
+D       licenses/LICENSE-d3.min.js.txt
+D       licenses/LICENSE-dagre-d3.txt
+D       licenses/LICENSE-f2j.txt
+D       licenses/LICENSE-graphlib-dot.txt
+D       licenses/LICENSE-heapq.txt
+D       licenses/LICENSE-javolution.txt
+D       licenses/LICENSE-jbcrypt.txt
+D       licenses/LICENSE-jblas.txt
+D       licenses/LICENSE-jline.txt
+D       licenses/LICENSE-jpmml-model.txt
+D       licenses/LICENSE-jquery.txt
+D       licenses/LICENSE-junit-interface.txt
+D       licenses/LICENSE-kryo.txt
+D       licenses/LICENSE-minlog.txt
+D       licenses/LICENSE-netlib.txt
+D       licenses/LICENSE-paranamer.txt
+D       licenses/LICENSE-protobuf.txt
+D       licenses/LICENSE-py4j.txt
+D       licenses/LICENSE-pyrolite.txt
+D       licenses/LICENSE-reflectasm.txt
+D       licenses/LICENSE-sbt-launch-lib.txt
+D       licenses/LICENSE-scala.txt
+D       licenses/LICENSE-scalacheck.txt
+D       licenses/LICENSE-scopt.txt
+D       licenses/LICENSE-slf4j.txt
+D       licenses/LICENSE-sorttable.js.txt
+D       licenses/LICENSE-spire.txt
+D       licenses/LICENSE-xmlenc.txt
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ ls
+assembly/  build/       CONTRIBUTING.md  dev/     ec2/       extras/    LICENSE                network/  project/  R/              repl/  scalastyle-config.xml  streaming/  unsafe/
+bagel/     CHANGES.txt  core/            docker/  examples/  graphx/    make-distribution.sh*  NOTICE    pylintrc  README.md       sbin/  spark-dev/             tools/      yarn/
+bin/       conf/        data/            docs/    external/  launcher/  mllib/                 pom.xml   python/   README.md.orig  sbt/   sql/                   tox.ini
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git push
+To https://github.com/practice-vishnoi/dev-spark-1.git
+ ! [rejected]        master -> master (non-fast-forward)
+error: failed to push some refs to 'https://github.com/practice-vishnoi/dev-spark-1.git'
+hint: Updates were rejected because the tip of your current branch is behind
+hint: its remote counterpart. Integrate the remote changes (e.g.
+hint: 'git pull ...') before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git reflog
+f4edab0 HEAD@{0}: reset: moving to HEAD@{1}
+07f8b1f HEAD@{1}: merge testbranchmerge: Fast-forward
+f4edab0 HEAD@{2}: checkout: moving from testbranchmerge to master
+07f8b1f HEAD@{3}: commit: licenses removed
+c438764 HEAD@{4}: commit: licenses added to branch
+65d2eb6 HEAD@{5}: commit: licenses removed
+f4edab0 HEAD@{6}: checkout: moving from master to testbranchmerge
+f4edab0 HEAD@{7}: commit: README.md is updated
+b35e35a HEAD@{8}: commit (merge): README.md committed after conflickt resolution
+ca652e9 HEAD@{9}: reset: moving to HEAD@{2}
+e13fb6f HEAD@{10}: rebase finished: returning to refs/heads/master
+e13fb6f HEAD@{11}: pull --rebase origin master: checkout e13fb6f6c17514445364639ff43a3facaddd4713
+ca652e9 HEAD@{12}: commit: NOTICE UPDATED ON 4TH JULY
+9d056b6 HEAD@{13}: commit: CHANGES.txt updated with new date
+1d114d8 HEAD@{14}: checkout: moving from ashish1 to master
+1d114d8 HEAD@{15}: checkout: moving from master to ashish1
+1d114d8 HEAD@{16}: commit (initial): added all files in spark-dev
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git reset --hard HEAD@{2}
+HEAD is now at f4edab0  README.md is updated
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git push origin master
+To https://github.com/practice-vishnoi/dev-spark-1.git
+ ! [rejected]        master -> master (non-fast-forward)
+error: failed to push some refs to 'https://github.com/practice-vishnoi/dev-spark-1.git'
+hint: Updates were rejected because the tip of your current branch is behind
+hint: its remote counterpart. Integrate the remote changes (e.g.
+hint: 'git pull ...') before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git pull origin master
+From https://github.com/practice-vishnoi/dev-spark-1
+ * branch            master     -> FETCH_HEAD
+Updating f4edab0..07f8b1f
+Fast-forward
+ licenses/LICENSE-AnchorJS.txt        |  21 ---
+ licenses/LICENSE-DPark.txt           |  30 ----
+ licenses/LICENSE-Mockito.txt         |  21 ---
+ licenses/LICENSE-SnapTree.txt        |  35 -----
+ licenses/LICENSE-antlr.txt           |   8 -
+ licenses/LICENSE-boto.txt            |  20 ---
+ licenses/LICENSE-cloudpickle.txt     |  28 ----
+ licenses/LICENSE-d3.min.js.txt       |  26 ----
+ licenses/LICENSE-dagre-d3.txt        |  19 ---
+ licenses/LICENSE-f2j.txt             |   8 -
+ licenses/LICENSE-graphlib-dot.txt    |  19 ---
+ licenses/LICENSE-heapq.txt           | 280 -----------------------------------
+ licenses/LICENSE-javolution.txt      |  27 ----
+ licenses/LICENSE-jbcrypt.txt         |  17 ---
+ licenses/LICENSE-jblas.txt           |  31 ----
+ licenses/LICENSE-jline.txt           |  32 ----
+ licenses/LICENSE-jpmml-model.txt     |  10 --
+ licenses/LICENSE-jquery.txt          |   9 --
+ licenses/LICENSE-junit-interface.txt |  24 ---
+ licenses/LICENSE-kryo.txt            |  10 --
+ licenses/LICENSE-minlog.txt          |  10 --
+ licenses/LICENSE-netlib.txt          |  49 ------
+ licenses/LICENSE-paranamer.txt       |  28 ----
+ licenses/LICENSE-protobuf.txt        |  42 ------
+ licenses/LICENSE-py4j.txt            |  27 ----
+ licenses/LICENSE-pyrolite.txt        |  28 ----
+ licenses/LICENSE-reflectasm.txt      |  10 --
+ licenses/LICENSE-sbt-launch-lib.txt  |  26 ----
+ licenses/LICENSE-scala.txt           |  30 ----
+ licenses/LICENSE-scalacheck.txt      |  32 ----
+ licenses/LICENSE-scopt.txt           |  21 ---
+ licenses/LICENSE-slf4j.txt           |  21 ---
+ licenses/LICENSE-sorttable.js.txt    |  16 --
+ licenses/LICENSE-spire.txt           |  19 ---
+ licenses/LICENSE-xmlenc.txt          |  27 ----
+ 35 files changed, 1061 deletions(-)
+ delete mode 100644 licenses/LICENSE-AnchorJS.txt
+ delete mode 100644 licenses/LICENSE-DPark.txt
+ delete mode 100644 licenses/LICENSE-Mockito.txt
+ delete mode 100644 licenses/LICENSE-SnapTree.txt
+ delete mode 100644 licenses/LICENSE-antlr.txt
+ delete mode 100644 licenses/LICENSE-boto.txt
+ delete mode 100644 licenses/LICENSE-cloudpickle.txt
+ delete mode 100644 licenses/LICENSE-d3.min.js.txt
+ delete mode 100644 licenses/LICENSE-dagre-d3.txt
+ delete mode 100644 licenses/LICENSE-f2j.txt
+ delete mode 100644 licenses/LICENSE-graphlib-dot.txt
+ delete mode 100644 licenses/LICENSE-heapq.txt
+ delete mode 100644 licenses/LICENSE-javolution.txt
+ delete mode 100644 licenses/LICENSE-jbcrypt.txt
+ delete mode 100644 licenses/LICENSE-jblas.txt
+ delete mode 100644 licenses/LICENSE-jline.txt
+ delete mode 100644 licenses/LICENSE-jpmml-model.txt
+ delete mode 100644 licenses/LICENSE-jquery.txt
+ delete mode 100644 licenses/LICENSE-junit-interface.txt
+ delete mode 100644 licenses/LICENSE-kryo.txt
+ delete mode 100644 licenses/LICENSE-minlog.txt
+ delete mode 100644 licenses/LICENSE-netlib.txt
+ delete mode 100644 licenses/LICENSE-paranamer.txt
+ delete mode 100644 licenses/LICENSE-protobuf.txt
+ delete mode 100644 licenses/LICENSE-py4j.txt
+ delete mode 100644 licenses/LICENSE-pyrolite.txt
+ delete mode 100644 licenses/LICENSE-reflectasm.txt
+ delete mode 100644 licenses/LICENSE-sbt-launch-lib.txt
+ delete mode 100644 licenses/LICENSE-scala.txt
+ delete mode 100644 licenses/LICENSE-scalacheck.txt
+ delete mode 100644 licenses/LICENSE-scopt.txt
+ delete mode 100644 licenses/LICENSE-slf4j.txt
+ delete mode 100644 licenses/LICENSE-sorttable.js.txt
+ delete mode 100644 licenses/LICENSE-spire.txt
+ delete mode 100644 licenses/LICENSE-xmlenc.txt
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git push origin master
+Everything up-to-date
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git reflog
+07f8b1f HEAD@{0}: pull origin master: Fast-forward
+f4edab0 HEAD@{1}: reset: moving to HEAD@{2}
+f4edab0 HEAD@{2}: reset: moving to HEAD@{1}
+07f8b1f HEAD@{3}: merge testbranchmerge: Fast-forward
+f4edab0 HEAD@{4}: checkout: moving from testbranchmerge to master
+07f8b1f HEAD@{5}: commit: licenses removed
+c438764 HEAD@{6}: commit: licenses added to branch
+65d2eb6 HEAD@{7}: commit: licenses removed
+f4edab0 HEAD@{8}: checkout: moving from master to testbranchmerge
+f4edab0 HEAD@{9}: commit: README.md is updated
+b35e35a HEAD@{10}: commit (merge): README.md committed after conflickt resolution
+ca652e9 HEAD@{11}: reset: moving to HEAD@{2}
+e13fb6f HEAD@{12}: rebase finished: returning to refs/heads/master
+e13fb6f HEAD@{13}: pull --rebase origin master: checkout e13fb6f6c17514445364639ff43a3facaddd4713
+ca652e9 HEAD@{14}: commit: NOTICE UPDATED ON 4TH JULY
+9d056b6 HEAD@{15}: commit: CHANGES.txt updated with new date
+1d114d8 HEAD@{16}: checkout: moving from ashish1 to master
+1d114d8 HEAD@{17}: checkout: moving from master to ashish1
+1d114d8 HEAD@{18}: commit (initial): added all files in spark-dev
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git reset --hard HEAD@{9}
+HEAD is now at f4edab0  README.md is updated
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ ls
+assembly/  build/       CONTRIBUTING.md  dev/     ec2/       extras/    LICENSE                mllib/    pom.xml   python/    README.md.orig  sbt/                   sql/        tox.ini
+bagel/     CHANGES.txt  core/            docker/  examples/  graphx/    licenses/              network/  project/  R/         repl/           scalastyle-config.xml  streaming/  unsafe/
+bin/       conf/        data/            docs/    external/  launcher/  make-distribution.sh*  NOTICE    pylintrc  README.md  sbin/           spark-dev/             tools/      yarn/
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git push origin master
+To https://github.com/practice-vishnoi/dev-spark-1.git
+ ! [rejected]        master -> master (non-fast-forward)
+error: failed to push some refs to 'https://github.com/practice-vishnoi/dev-spark-1.git'
+hint: Updates were rejected because the tip of your current branch is behind
+hint: its remote counterpart. Integrate the remote changes (e.g.
+hint: 'git pull ...') before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git pull origin master
+From https://github.com/practice-vishnoi/dev-spark-1
+ * branch            master     -> FETCH_HEAD
+Updating f4edab0..07f8b1f
+Fast-forward
+ licenses/LICENSE-AnchorJS.txt        |  21 ---
+ licenses/LICENSE-DPark.txt           |  30 ----
+ licenses/LICENSE-Mockito.txt         |  21 ---
+ licenses/LICENSE-SnapTree.txt        |  35 -----
+ licenses/LICENSE-antlr.txt           |   8 -
+ licenses/LICENSE-boto.txt            |  20 ---
+ licenses/LICENSE-cloudpickle.txt     |  28 ----
+ licenses/LICENSE-d3.min.js.txt       |  26 ----
+ licenses/LICENSE-dagre-d3.txt        |  19 ---
+ licenses/LICENSE-f2j.txt             |   8 -
+ licenses/LICENSE-graphlib-dot.txt    |  19 ---
+ licenses/LICENSE-heapq.txt           | 280 -----------------------------------
+ licenses/LICENSE-javolution.txt      |  27 ----
+ licenses/LICENSE-jbcrypt.txt         |  17 ---
+ licenses/LICENSE-jblas.txt           |  31 ----
+ licenses/LICENSE-jline.txt           |  32 ----
+ licenses/LICENSE-jpmml-model.txt     |  10 --
+ licenses/LICENSE-jquery.txt          |   9 --
+ licenses/LICENSE-junit-interface.txt |  24 ---
+ licenses/LICENSE-kryo.txt            |  10 --
+ licenses/LICENSE-minlog.txt          |  10 --
+ licenses/LICENSE-netlib.txt          |  49 ------
+ licenses/LICENSE-paranamer.txt       |  28 ----
+ licenses/LICENSE-protobuf.txt        |  42 ------
+ licenses/LICENSE-py4j.txt            |  27 ----
+ licenses/LICENSE-pyrolite.txt        |  28 ----
+ licenses/LICENSE-reflectasm.txt      |  10 --
+ licenses/LICENSE-sbt-launch-lib.txt  |  26 ----
+ licenses/LICENSE-scala.txt           |  30 ----
+ licenses/LICENSE-scalacheck.txt      |  32 ----
+ licenses/LICENSE-scopt.txt           |  21 ---
+ licenses/LICENSE-slf4j.txt           |  21 ---
+ licenses/LICENSE-sorttable.js.txt    |  16 --
+ licenses/LICENSE-spire.txt           |  19 ---
+ licenses/LICENSE-xmlenc.txt          |  27 ----
+ 35 files changed, 1061 deletions(-)
+ delete mode 100644 licenses/LICENSE-AnchorJS.txt
+ delete mode 100644 licenses/LICENSE-DPark.txt
+ delete mode 100644 licenses/LICENSE-Mockito.txt
+ delete mode 100644 licenses/LICENSE-SnapTree.txt
+ delete mode 100644 licenses/LICENSE-antlr.txt
+ delete mode 100644 licenses/LICENSE-boto.txt
+ delete mode 100644 licenses/LICENSE-cloudpickle.txt
+ delete mode 100644 licenses/LICENSE-d3.min.js.txt
+ delete mode 100644 licenses/LICENSE-dagre-d3.txt
+ delete mode 100644 licenses/LICENSE-f2j.txt
+ delete mode 100644 licenses/LICENSE-graphlib-dot.txt
+ delete mode 100644 licenses/LICENSE-heapq.txt
+ delete mode 100644 licenses/LICENSE-javolution.txt
+ delete mode 100644 licenses/LICENSE-jbcrypt.txt
+ delete mode 100644 licenses/LICENSE-jblas.txt
+ delete mode 100644 licenses/LICENSE-jline.txt
+ delete mode 100644 licenses/LICENSE-jpmml-model.txt
+ delete mode 100644 licenses/LICENSE-jquery.txt
+ delete mode 100644 licenses/LICENSE-junit-interface.txt
+ delete mode 100644 licenses/LICENSE-kryo.txt
+ delete mode 100644 licenses/LICENSE-minlog.txt
+ delete mode 100644 licenses/LICENSE-netlib.txt
+ delete mode 100644 licenses/LICENSE-paranamer.txt
+ delete mode 100644 licenses/LICENSE-protobuf.txt
+ delete mode 100644 licenses/LICENSE-py4j.txt
+ delete mode 100644 licenses/LICENSE-pyrolite.txt
+ delete mode 100644 licenses/LICENSE-reflectasm.txt
+ delete mode 100644 licenses/LICENSE-sbt-launch-lib.txt
+ delete mode 100644 licenses/LICENSE-scala.txt
+ delete mode 100644 licenses/LICENSE-scalacheck.txt
+ delete mode 100644 licenses/LICENSE-scopt.txt
+ delete mode 100644 licenses/LICENSE-slf4j.txt
+ delete mode 100644 licenses/LICENSE-sorttable.js.txt
+ delete mode 100644 licenses/LICENSE-spire.txt
+ delete mode 100644 licenses/LICENSE-xmlenc.txt
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ ls
+assembly/  build/       CONTRIBUTING.md  dev/     ec2/       extras/    LICENSE                network/  project/  R/              repl/  scalastyle-config.xml  streaming/  unsafe/
+bagel/     CHANGES.txt  core/            docker/  examples/  graphx/    make-distribution.sh*  NOTICE    pylintrc  README.md       sbin/  spark-dev/             tools/      yarn/
+bin/       conf/        data/            docs/    external/  launcher/  mllib/                 pom.xml   python/   README.md.orig  sbt/   sql/                   tox.ini
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git reflog
+07f8b1f HEAD@{0}: pull origin master: Fast-forward
+f4edab0 HEAD@{1}: reset: moving to HEAD@{9}
+07f8b1f HEAD@{2}: pull origin master: Fast-forward
+f4edab0 HEAD@{3}: reset: moving to HEAD@{2}
+f4edab0 HEAD@{4}: reset: moving to HEAD@{1}
+07f8b1f HEAD@{5}: merge testbranchmerge: Fast-forward
+f4edab0 HEAD@{6}: checkout: moving from testbranchmerge to master
+07f8b1f HEAD@{7}: commit: licenses removed
+c438764 HEAD@{8}: commit: licenses added to branch
+65d2eb6 HEAD@{9}: commit: licenses removed
+f4edab0 HEAD@{10}: checkout: moving from master to testbranchmerge
+f4edab0 HEAD@{11}: commit: README.md is updated
+b35e35a HEAD@{12}: commit (merge): README.md committed after conflickt resolution
+ca652e9 HEAD@{13}: reset: moving to HEAD@{2}
+e13fb6f HEAD@{14}: rebase finished: returning to refs/heads/master
+e13fb6f HEAD@{15}: pull --rebase origin master: checkout e13fb6f6c17514445364639ff43a3facaddd4713
+ca652e9 HEAD@{16}: commit: NOTICE UPDATED ON 4TH JULY
+9d056b6 HEAD@{17}: commit: CHANGES.txt updated with new date
+1d114d8 HEAD@{18}: checkout: moving from ashish1 to master
+1d114d8 HEAD@{19}: checkout: moving from master to ashish1
+1d114d8 HEAD@{20}: commit (initial): added all files in spark-dev
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git reset --hard HEAD@{1}
+HEAD is now at f4edab0  README.md is updated
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ ls
+assembly/  build/       CONTRIBUTING.md  dev/     ec2/       extras/    LICENSE                mllib/    pom.xml   python/    README.md.orig  sbt/                   sql/        tox.ini
+bagel/     CHANGES.txt  core/            docker/  examples/  graphx/    licenses/              network/  project/  R/         repl/           scalastyle-config.xml  streaming/  unsafe/
+bin/       conf/        data/            docs/    external/  launcher/  make-distribution.sh*  NOTICE    pylintrc  README.md  sbin/           spark-dev/             tools/      yarn/
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git push origin master
+To https://github.com/practice-vishnoi/dev-spark-1.git
+ ! [rejected]        master -> master (non-fast-forward)
+error: failed to push some refs to 'https://github.com/practice-vishnoi/dev-spark-1.git'
+hint: Updates were rejected because the tip of your current branch is behind
+hint: its remote counterpart. Integrate the remote changes (e.g.
+hint: 'git pull ...') before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git push --allow-unrelated-histories
+error: unknown option `allow-unrelated-histories'
+usage: git push [<options>] [<repository> [<refspec>...]]
+
+    -v, --verbose         be more verbose
+    -q, --quiet           be more quiet
+    --repo <repository>   repository
+    --all                 push all refs
+    --mirror              mirror all refs
+    -d, --delete          delete refs
+    --tags                push tags (can't be used with --all or --mirror)
+    -n, --dry-run         dry run
+    --porcelain           machine-readable output
+    -f, --force           force updates
+    --force-with-lease[=<refname>:<expect>]
+                          require old value of ref to be at this value
+    --recurse-submodules[=<check|on-demand|no>]
+                          control recursive pushing of submodules
+    --thin                use thin pack
+    --receive-pack <receive-pack>
+                          receive pack program
+    --exec <receive-pack>
+                          receive pack program
+    -u, --set-upstream    set upstream for git pull/status
+    --progress            force progress reporting
+    --prune               prune locally removed refs
+    --no-verify           bypass pre-push hook
+    --follow-tags         push missing but relevant tags
+    --signed[=<yes|no|if-asked>]
+                          GPG sign the push
+    --atomic              request atomic transaction on remote side
+    -o, --push-option <server-specific>
+                          option to transmit
+    -4, --ipv4            use IPv4 addresses only
+    -6, --ipv6            use IPv6 addresses only
+
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git push --force
+Total 0 (delta 0), reused 0 (delta 0)
+To https://github.com/practice-vishnoi/dev-spark-1.git
+ + 07f8b1f...f4edab0 master -> master (forced update)
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git log
+commit f4edab09fbf91ef73618458116d72debcca8c63e
+Author: Ashish Vishnoi <vishnoiashish2000@gmail.com>
+Date:   Tue Jul 4 21:03:19 2017 -0500
+
+     README.md is updated
+
+commit b35e35a3552d1de50646b0d0093c3e0e77329acb
+Merge: ca652e9 e13fb6f
+Author: Ashish Vishnoi <vishnoiashish2000@gmail.com>
+Date:   Tue Jul 4 16:34:27 2017 -0500
+
+    README.md committed after conflickt resolution
+
+commit e13fb6f6c17514445364639ff43a3facaddd4713
+Author: vishnoiashish <vishnoiashish2000@gmail.com>
+Date:   Tue Jul 4 12:04:06 2017 -0500
+
+    Initial commit
+
+commit ca652e938a4b80423b4d8506a5e95b3bab86f33e
+Author: Ashish Vishnoi <vishnoiashish2000@gmail.com>
+Date:   Tue Jul 4 00:43:29 2017 -0500
+
+     NOTICE UPDATED ON 4TH JULY
+
+commit 9d056b6ffd907ff1902ef45f9ea408393668e3c9
+Author: Ashish Vishnoi <vishnoiashish2000@gmail.com>
+Date:   Tue Jul 4 00:39:18 2017 -0500
+
+    CHANGES.txt updated with new date
+
+commit 1d114d8395b269080f08944fd9e46ef3c100472b
+Author: Ashish Vishnoi <vishnoiashish2000@gmail.com>
+Date:   Tue Jul 4 00:18:07 2017 -0500
+
+     added all files in spark-dev
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git log f4edab09fbf91ef73618458116d72debcca8c63e
+commit f4edab09fbf91ef73618458116d72debcca8c63e
+Author: Ashish Vishnoi <vishnoiashish2000@gmail.com>
+Date:   Tue Jul 4 21:03:19 2017 -0500
+
+     README.md is updated
+
+commit b35e35a3552d1de50646b0d0093c3e0e77329acb
+Merge: ca652e9 e13fb6f
+Author: Ashish Vishnoi <vishnoiashish2000@gmail.com>
+Date:   Tue Jul 4 16:34:27 2017 -0500
+
+    README.md committed after conflickt resolution
+
+commit e13fb6f6c17514445364639ff43a3facaddd4713
+Author: vishnoiashish <vishnoiashish2000@gmail.com>
+Date:   Tue Jul 4 12:04:06 2017 -0500
+
+    Initial commit
+
+commit ca652e938a4b80423b4d8506a5e95b3bab86f33e
+Author: Ashish Vishnoi <vishnoiashish2000@gmail.com>
+Date:   Tue Jul 4 00:43:29 2017 -0500
+
+     NOTICE UPDATED ON 4TH JULY
+
+commit 9d056b6ffd907ff1902ef45f9ea408393668e3c9
+Author: Ashish Vishnoi <vishnoiashish2000@gmail.com>
+Date:   Tue Jul 4 00:39:18 2017 -0500
+
+    CHANGES.txt updated with new date
+
+commit 1d114d8395b269080f08944fd9e46ef3c100472b
+Author: Ashish Vishnoi <vishnoiashish2000@gmail.com>
+Date:   Tue Jul 4 00:18:07 2017 -0500
+
+     added all files in spark-dev
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ vi 9d056b6ffd907ff1902ef45f9ea408393668e3c9
+
+[No write since last change]
+/usr/bin/bash: q: command not found
+
+shell returned 127
+
+Press ENTER or type command to continue
+[No write since last change]
+/usr/bin/bash: q: command not found
+
+shell returned 127
+
+Press ENTER or type command to continue
+[No write since last change]
+/usr/bin/bash: q: command not found
+
+shell returned 127
+
+Press ENTER or type command to continue
+[No write since last change]
+/usr/bin/bash: q: command not found
+
+shell returned 127
+
+Press ENTER or type command to continue
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git log --all
+commit 07f8b1f320d95c5d233b8f3d9118fd1b8fcd177b
+Author: Ashish Vishnoi <vishnoiashish2000@gmail.com>
+Date:   Tue Jul 4 21:35:51 2017 -0500
+
+    licenses removed
+
+commit c43876474c4b61284832bcb7f4d32306ccf4c3db
+Author: Ashish Vishnoi <vishnoiashish2000@gmail.com>
+Date:   Tue Jul 4 21:35:02 2017 -0500
+
+    licenses added to branch
+
+commit 65d2eb6e320e9060885b22323c9f532806ae5114
+Author: Ashish Vishnoi <vishnoiashish2000@gmail.com>
+Date:   Tue Jul 4 21:32:08 2017 -0500
+
+    licenses removed
+
+commit f4edab09fbf91ef73618458116d72debcca8c63e
+Author: Ashish Vishnoi <vishnoiashish2000@gmail.com>
+Date:   Tue Jul 4 21:03:19 2017 -0500
+
+     README.md is updated
+
+commit b35e35a3552d1de50646b0d0093c3e0e77329acb
+Merge: ca652e9 e13fb6f
+Author: Ashish Vishnoi <vishnoiashish2000@gmail.com>
+Date:   Tue Jul 4 16:34:27 2017 -0500
+
+    README.md committed after conflickt resolution
+
+commit e13fb6f6c17514445364639ff43a3facaddd4713
+Author: vishnoiashish <vishnoiashish2000@gmail.com>
+Date:   Tue Jul 4 12:04:06 2017 -0500
+
+    Initial commit
+
+commit ca652e938a4b80423b4d8506a5e95b3bab86f33e
+Author: Ashish Vishnoi <vishnoiashish2000@gmail.com>
+Date:   Tue Jul 4 00:43:29 2017 -0500
+
+     NOTICE UPDATED ON 4TH JULY
+
+commit 9d056b6ffd907ff1902ef45f9ea408393668e3c9
+Author: Ashish Vishnoi <vishnoiashish2000@gmail.com>
+Date:   Tue Jul 4 00:39:18 2017 -0500
+
+    CHANGES.txt updated with new date
+
+commit 1d114d8395b269080f08944fd9e46ef3c100472b
+Author: Ashish Vishnoi <vishnoiashish2000@gmail.com>
+Date:   Tue Jul 4 00:18:07 2017 -0500
+
+     added all files in spark-dev
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git log history
+fatal: ambiguous argument 'history': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git log --history
+fatal: unrecognized argument: --history
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git log -all
+fatal: unrecognized argument: -all
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git log --all
+commit 07f8b1f320d95c5d233b8f3d9118fd1b8fcd177b
+Author: Ashish Vishnoi <vishnoiashish2000@gmail.com>
+Date:   Tue Jul 4 21:35:51 2017 -0500
+
+    licenses removed
+
+commit c43876474c4b61284832bcb7f4d32306ccf4c3db
+Author: Ashish Vishnoi <vishnoiashish2000@gmail.com>
+Date:   Tue Jul 4 21:35:02 2017 -0500
+
+    licenses added to branch
+
+commit 65d2eb6e320e9060885b22323c9f532806ae5114
+Author: Ashish Vishnoi <vishnoiashish2000@gmail.com>
+Date:   Tue Jul 4 21:32:08 2017 -0500
+
+    licenses removed
+
+commit f4edab09fbf91ef73618458116d72debcca8c63e
+Author: Ashish Vishnoi <vishnoiashish2000@gmail.com>
+Date:   Tue Jul 4 21:03:19 2017 -0500
+
+     README.md is updated
+
+commit b35e35a3552d1de50646b0d0093c3e0e77329acb
+Merge: ca652e9 e13fb6f
+Author: Ashish Vishnoi <vishnoiashish2000@gmail.com>
+Date:   Tue Jul 4 16:34:27 2017 -0500
+
+    README.md committed after conflickt resolution
+
+commit e13fb6f6c17514445364639ff43a3facaddd4713
+Author: vishnoiashish <vishnoiashish2000@gmail.com>
+Date:   Tue Jul 4 12:04:06 2017 -0500
+
+    Initial commit
+
+commit ca652e938a4b80423b4d8506a5e95b3bab86f33e
+Author: Ashish Vishnoi <vishnoiashish2000@gmail.com>
+Date:   Tue Jul 4 00:43:29 2017 -0500
+
+     NOTICE UPDATED ON 4TH JULY
+
+commit 9d056b6ffd907ff1902ef45f9ea408393668e3c9
+Author: Ashish Vishnoi <vishnoiashish2000@gmail.com>
+Date:   Tue Jul 4 00:39:18 2017 -0500
+
+    CHANGES.txt updated with new date
+
+commit 1d114d8395b269080f08944fd9e46ef3c100472b
+Author: Ashish Vishnoi <vishnoiashish2000@gmail.com>
+Date:   Tue Jul 4 00:18:07 2017 -0500
+
+     added all files in spark-dev
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git branch
+  ashish1
+* master
+  testbranchmerge
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git checkout branch testbranchmerge
+error: pathspec 'branch' did not match any file(s) known to git.
+error: pathspec 'testbranchmerge' did not match any file(s) known to git.
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git checkout testbranchmerge
+Switched to branch 'testbranchmerge'
+Your branch is up-to-date with 'origin/testbranchmerge'.
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (testbranchmerge)
+$ ls
+9d056b6ffd907ff1902ef45f9ea408393668e3c9  build/           core/    docs/      extras/    make-distribution.sh*  pom.xml   R/              sbin/                  sql/        unsafe/
+assembly/                                 CHANGES.txt      data/    ec2/       graphx/    mllib/                 project/  README.md       sbt/                   streaming/  yarn/
+bagel/                                    conf/            dev/     examples/  launcher/  network/               pylintrc  README.md.orig  scalastyle-config.xml  tools/
+bin/                                      CONTRIBUTING.md  docker/  external/  LICENSE    NOTICE                 python/   repl/           spark-dev/             tox.ini
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (testbranchmerge)
+$ vi LICENSE
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (testbranchmerge)
+$ git add LICENSE
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (testbranchmerge)
+$ git commit -m 'LICENSE FILE REVIEWD AND REWRITTEN'
+[testbranchmerge 52410d6] LICENSE FILE REVIEWD AND REWRITTEN
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (testbranchmerge)
+$ git status
+On branch testbranchmerge
+Your branch is ahead of 'origin/testbranchmerge' by 1 commit.
+  (use "git push" to publish your local commits)
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+        9d056b6ffd907ff1902ef45f9ea408393668e3c9
+        README.md.orig
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (testbranchmerge)
+$ git push origin testbranchmerge
+Counting objects: 3, done.
+Delta compression using up to 4 threads.
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 378 bytes | 0 bytes/s, done.
+Total 3 (delta 2), reused 0 (delta 0)
+remote: Resolving deltas: 100% (2/2), completed with 2 local objects.
+To https://github.com/practice-vishnoi/dev-spark-1.git
+   07f8b1f..52410d6  testbranchmerge -> testbranchmerge
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (testbranchmerge)
+$ git checkout master
+Switched to branch 'master'
+Your branch is up-to-date with 'origin/master'.
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git merge testbranchmerge
+Updating f4edab0..52410d6
+Fast-forward
+ LICENSE                              |   4 +-
+ licenses/LICENSE-AnchorJS.txt        |  21 ---
+ licenses/LICENSE-DPark.txt           |  30 ----
+ licenses/LICENSE-Mockito.txt         |  21 ---
+ licenses/LICENSE-SnapTree.txt        |  35 -----
+ licenses/LICENSE-antlr.txt           |   8 -
+ licenses/LICENSE-boto.txt            |  20 ---
+ licenses/LICENSE-cloudpickle.txt     |  28 ----
+ licenses/LICENSE-d3.min.js.txt       |  26 ----
+ licenses/LICENSE-dagre-d3.txt        |  19 ---
+ licenses/LICENSE-f2j.txt             |   8 -
+ licenses/LICENSE-graphlib-dot.txt    |  19 ---
+ licenses/LICENSE-heapq.txt           | 280 -----------------------------------
+ licenses/LICENSE-javolution.txt      |  27 ----
+ licenses/LICENSE-jbcrypt.txt         |  17 ---
+ licenses/LICENSE-jblas.txt           |  31 ----
+ licenses/LICENSE-jline.txt           |  32 ----
+ licenses/LICENSE-jpmml-model.txt     |  10 --
+ licenses/LICENSE-jquery.txt          |   9 --
+ licenses/LICENSE-junit-interface.txt |  24 ---
+ licenses/LICENSE-kryo.txt            |  10 --
+ licenses/LICENSE-minlog.txt          |  10 --
+ licenses/LICENSE-netlib.txt          |  49 ------
+ licenses/LICENSE-paranamer.txt       |  28 ----
+ licenses/LICENSE-protobuf.txt        |  42 ------
+ licenses/LICENSE-py4j.txt            |  27 ----
+ licenses/LICENSE-pyrolite.txt        |  28 ----
+ licenses/LICENSE-reflectasm.txt      |  10 --
+ licenses/LICENSE-sbt-launch-lib.txt  |  26 ----
+ licenses/LICENSE-scala.txt           |  30 ----
+ licenses/LICENSE-scalacheck.txt      |  32 ----
+ licenses/LICENSE-scopt.txt           |  21 ---
+ licenses/LICENSE-slf4j.txt           |  21 ---
+ licenses/LICENSE-sorttable.js.txt    |  16 --
+ licenses/LICENSE-spire.txt           |  19 ---
+ licenses/LICENSE-xmlenc.txt          |  27 ----
+ 36 files changed, 3 insertions(+), 1062 deletions(-)
+ delete mode 100644 licenses/LICENSE-AnchorJS.txt
+ delete mode 100644 licenses/LICENSE-DPark.txt
+ delete mode 100644 licenses/LICENSE-Mockito.txt
+ delete mode 100644 licenses/LICENSE-SnapTree.txt
+ delete mode 100644 licenses/LICENSE-antlr.txt
+ delete mode 100644 licenses/LICENSE-boto.txt
+ delete mode 100644 licenses/LICENSE-cloudpickle.txt
+ delete mode 100644 licenses/LICENSE-d3.min.js.txt
+ delete mode 100644 licenses/LICENSE-dagre-d3.txt
+ delete mode 100644 licenses/LICENSE-f2j.txt
+ delete mode 100644 licenses/LICENSE-graphlib-dot.txt
+ delete mode 100644 licenses/LICENSE-heapq.txt
+ delete mode 100644 licenses/LICENSE-javolution.txt
+ delete mode 100644 licenses/LICENSE-jbcrypt.txt
+ delete mode 100644 licenses/LICENSE-jblas.txt
+ delete mode 100644 licenses/LICENSE-jline.txt
+ delete mode 100644 licenses/LICENSE-jpmml-model.txt
+ delete mode 100644 licenses/LICENSE-jquery.txt
+ delete mode 100644 licenses/LICENSE-junit-interface.txt
+ delete mode 100644 licenses/LICENSE-kryo.txt
+ delete mode 100644 licenses/LICENSE-minlog.txt
+ delete mode 100644 licenses/LICENSE-netlib.txt
+ delete mode 100644 licenses/LICENSE-paranamer.txt
+ delete mode 100644 licenses/LICENSE-protobuf.txt
+ delete mode 100644 licenses/LICENSE-py4j.txt
+ delete mode 100644 licenses/LICENSE-pyrolite.txt
+ delete mode 100644 licenses/LICENSE-reflectasm.txt
+ delete mode 100644 licenses/LICENSE-sbt-launch-lib.txt
+ delete mode 100644 licenses/LICENSE-scala.txt
+ delete mode 100644 licenses/LICENSE-scalacheck.txt
+ delete mode 100644 licenses/LICENSE-scopt.txt
+ delete mode 100644 licenses/LICENSE-slf4j.txt
+ delete mode 100644 licenses/LICENSE-sorttable.js.txt
+ delete mode 100644 licenses/LICENSE-spire.txt
+ delete mode 100644 licenses/LICENSE-xmlenc.txt
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git merge --abort
+fatal: There is no merge to abort (MERGE_HEAD missing).
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git merge --abort testbranchmerge
+fatal: There is no merge to abort (MERGE_HEAD missing).
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git reflog
+52410d6 HEAD@{0}: merge testbranchmerge: Fast-forward
+f4edab0 HEAD@{1}: checkout: moving from testbranchmerge to master
+52410d6 HEAD@{2}: commit: LICENSE FILE REVIEWD AND REWRITTEN
+07f8b1f HEAD@{3}: checkout: moving from master to testbranchmerge
+f4edab0 HEAD@{4}: reset: moving to HEAD@{1}
+07f8b1f HEAD@{5}: pull origin master: Fast-forward
+f4edab0 HEAD@{6}: reset: moving to HEAD@{9}
+07f8b1f HEAD@{7}: pull origin master: Fast-forward
+f4edab0 HEAD@{8}: reset: moving to HEAD@{2}
+f4edab0 HEAD@{9}: reset: moving to HEAD@{1}
+07f8b1f HEAD@{10}: merge testbranchmerge: Fast-forward
+f4edab0 HEAD@{11}: checkout: moving from testbranchmerge to master
+07f8b1f HEAD@{12}: commit: licenses removed
+c438764 HEAD@{13}: commit: licenses added to branch
+65d2eb6 HEAD@{14}: commit: licenses removed
+f4edab0 HEAD@{15}: checkout: moving from master to testbranchmerge
+f4edab0 HEAD@{16}: commit: README.md is updated
+b35e35a HEAD@{17}: commit (merge): README.md committed after conflickt resolution
+ca652e9 HEAD@{18}: reset: moving to HEAD@{2}
+e13fb6f HEAD@{19}: rebase finished: returning to refs/heads/master
+e13fb6f HEAD@{20}: pull --rebase origin master: checkout e13fb6f6c17514445364639ff43a3facaddd4713
+ca652e9 HEAD@{21}: commit: NOTICE UPDATED ON 4TH JULY
+9d056b6 HEAD@{22}: commit: CHANGES.txt updated with new date
+1d114d8 HEAD@{23}: checkout: moving from ashish1 to master
+1d114d8 HEAD@{24}: checkout: moving from master to ashish1
+1d114d8 HEAD@{25}: commit (initial): added all files in spark-dev
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git reset HEAD@{1}
+Unstaged changes after reset:
+M       LICENSE
+D       licenses/LICENSE-AnchorJS.txt
+D       licenses/LICENSE-DPark.txt
+D       licenses/LICENSE-Mockito.txt
+D       licenses/LICENSE-SnapTree.txt
+D       licenses/LICENSE-antlr.txt
+D       licenses/LICENSE-boto.txt
+D       licenses/LICENSE-cloudpickle.txt
+D       licenses/LICENSE-d3.min.js.txt
+D       licenses/LICENSE-dagre-d3.txt
+D       licenses/LICENSE-f2j.txt
+D       licenses/LICENSE-graphlib-dot.txt
+D       licenses/LICENSE-heapq.txt
+D       licenses/LICENSE-javolution.txt
+D       licenses/LICENSE-jbcrypt.txt
+D       licenses/LICENSE-jblas.txt
+D       licenses/LICENSE-jline.txt
+D       licenses/LICENSE-jpmml-model.txt
+D       licenses/LICENSE-jquery.txt
+D       licenses/LICENSE-junit-interface.txt
+D       licenses/LICENSE-kryo.txt
+D       licenses/LICENSE-minlog.txt
+D       licenses/LICENSE-netlib.txt
+D       licenses/LICENSE-paranamer.txt
+D       licenses/LICENSE-protobuf.txt
+D       licenses/LICENSE-py4j.txt
+D       licenses/LICENSE-pyrolite.txt
+D       licenses/LICENSE-reflectasm.txt
+D       licenses/LICENSE-sbt-launch-lib.txt
+D       licenses/LICENSE-scala.txt
+D       licenses/LICENSE-scalacheck.txt
+D       licenses/LICENSE-scopt.txt
+D       licenses/LICENSE-slf4j.txt
+D       licenses/LICENSE-sorttable.js.txt
+D       licenses/LICENSE-spire.txt
+D       licenses/LICENSE-xmlenc.txt
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ ls
+9d056b6ffd907ff1902ef45f9ea408393668e3c9  build/           core/    docs/      extras/    make-distribution.sh*  pom.xml   R/              sbin/                  sql/        unsafe/
+assembly/                                 CHANGES.txt      data/    ec2/       graphx/    mllib/                 project/  README.md       sbt/                   streaming/  yarn/
+bagel/                                    conf/            dev/     examples/  launcher/  network/               pylintrc  README.md.orig  scalastyle-config.xml  tools/
+bin/                                      CONTRIBUTING.md  docker/  external/  LICENSE    NOTICE                 python/   repl/           spark-dev/             tox.ini
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git merge testbranchmerge
+Updating f4edab0..52410d6
+error: Your local changes to the following files would be overwritten by merge:
+        LICENSE
+Please commit your changes or stash them before you merge.
+Aborting
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ ls
+9d056b6ffd907ff1902ef45f9ea408393668e3c9  build/           core/    docs/      extras/    make-distribution.sh*  pom.xml   R/              sbin/                  sql/        unsafe/
+assembly/                                 CHANGES.txt      data/    ec2/       graphx/    mllib/                 project/  README.md       sbt/                   streaming/  yarn/
+bagel/                                    conf/            dev/     examples/  launcher/  network/               pylintrc  README.md.orig  scalastyle-config.xml  tools/
+bin/                                      CONTRIBUTING.md  docker/  external/  LICENSE    NOTICE                 python/   repl/           spark-dev/             tox.ini
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git reflog
+f4edab0 HEAD@{0}: reset: moving to HEAD@{1}
+52410d6 HEAD@{1}: merge testbranchmerge: Fast-forward
+f4edab0 HEAD@{2}: checkout: moving from testbranchmerge to master
+52410d6 HEAD@{3}: commit: LICENSE FILE REVIEWD AND REWRITTEN
+07f8b1f HEAD@{4}: checkout: moving from master to testbranchmerge
+f4edab0 HEAD@{5}: reset: moving to HEAD@{1}
+07f8b1f HEAD@{6}: pull origin master: Fast-forward
+f4edab0 HEAD@{7}: reset: moving to HEAD@{9}
+07f8b1f HEAD@{8}: pull origin master: Fast-forward
+f4edab0 HEAD@{9}: reset: moving to HEAD@{2}
+f4edab0 HEAD@{10}: reset: moving to HEAD@{1}
+07f8b1f HEAD@{11}: merge testbranchmerge: Fast-forward
+f4edab0 HEAD@{12}: checkout: moving from testbranchmerge to master
+07f8b1f HEAD@{13}: commit: licenses removed
+c438764 HEAD@{14}: commit: licenses added to branch
+65d2eb6 HEAD@{15}: commit: licenses removed
+f4edab0 HEAD@{16}: checkout: moving from master to testbranchmerge
+f4edab0 HEAD@{17}: commit: README.md is updated
+b35e35a HEAD@{18}: commit (merge): README.md committed after conflickt resolution
+ca652e9 HEAD@{19}: reset: moving to HEAD@{2}
+e13fb6f HEAD@{20}: rebase finished: returning to refs/heads/master
+e13fb6f HEAD@{21}: pull --rebase origin master: checkout e13fb6f6c17514445364639ff43a3facaddd4713
+ca652e9 HEAD@{22}: commit: NOTICE UPDATED ON 4TH JULY
+9d056b6 HEAD@{23}: commit: CHANGES.txt updated with new date
+1d114d8 HEAD@{24}: checkout: moving from ashish1 to master
+1d114d8 HEAD@{25}: checkout: moving from master to ashish1
+1d114d8 HEAD@{26}: commit (initial): added all files in spark-dev
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git reset HEAD@{2}
+Unstaged changes after reset:
+M       LICENSE
+D       licenses/LICENSE-AnchorJS.txt
+D       licenses/LICENSE-DPark.txt
+D       licenses/LICENSE-Mockito.txt
+D       licenses/LICENSE-SnapTree.txt
+D       licenses/LICENSE-antlr.txt
+D       licenses/LICENSE-boto.txt
+D       licenses/LICENSE-cloudpickle.txt
+D       licenses/LICENSE-d3.min.js.txt
+D       licenses/LICENSE-dagre-d3.txt
+D       licenses/LICENSE-f2j.txt
+D       licenses/LICENSE-graphlib-dot.txt
+D       licenses/LICENSE-heapq.txt
+D       licenses/LICENSE-javolution.txt
+D       licenses/LICENSE-jbcrypt.txt
+D       licenses/LICENSE-jblas.txt
+D       licenses/LICENSE-jline.txt
+D       licenses/LICENSE-jpmml-model.txt
+D       licenses/LICENSE-jquery.txt
+D       licenses/LICENSE-junit-interface.txt
+D       licenses/LICENSE-kryo.txt
+D       licenses/LICENSE-minlog.txt
+D       licenses/LICENSE-netlib.txt
+D       licenses/LICENSE-paranamer.txt
+D       licenses/LICENSE-protobuf.txt
+D       licenses/LICENSE-py4j.txt
+D       licenses/LICENSE-pyrolite.txt
+D       licenses/LICENSE-reflectasm.txt
+D       licenses/LICENSE-sbt-launch-lib.txt
+D       licenses/LICENSE-scala.txt
+D       licenses/LICENSE-scalacheck.txt
+D       licenses/LICENSE-scopt.txt
+D       licenses/LICENSE-slf4j.txt
+D       licenses/LICENSE-sorttable.js.txt
+D       licenses/LICENSE-spire.txt
+D       licenses/LICENSE-xmlenc.txt
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ ls
+9d056b6ffd907ff1902ef45f9ea408393668e3c9  build/           core/    docs/      extras/    make-distribution.sh*  pom.xml   R/              sbin/                  sql/        unsafe/
+assembly/                                 CHANGES.txt      data/    ec2/       graphx/    mllib/                 project/  README.md       sbt/                   streaming/  yarn/
+bagel/                                    conf/            dev/     examples/  launcher/  network/               pylintrc  README.md.orig  scalastyle-config.xml  tools/
+bin/                                      CONTRIBUTING.md  docker/  external/  LICENSE    NOTICE                 python/   repl/           spark-dev/             tox.ini
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git reflog
+f4edab0 HEAD@{0}: reset: moving to HEAD@{2}
+f4edab0 HEAD@{1}: reset: moving to HEAD@{1}
+52410d6 HEAD@{2}: merge testbranchmerge: Fast-forward
+f4edab0 HEAD@{3}: checkout: moving from testbranchmerge to master
+52410d6 HEAD@{4}: commit: LICENSE FILE REVIEWD AND REWRITTEN
+07f8b1f HEAD@{5}: checkout: moving from master to testbranchmerge
+f4edab0 HEAD@{6}: reset: moving to HEAD@{1}
+07f8b1f HEAD@{7}: pull origin master: Fast-forward
+f4edab0 HEAD@{8}: reset: moving to HEAD@{9}
+07f8b1f HEAD@{9}: pull origin master: Fast-forward
+f4edab0 HEAD@{10}: reset: moving to HEAD@{2}
+f4edab0 HEAD@{11}: reset: moving to HEAD@{1}
+07f8b1f HEAD@{12}: merge testbranchmerge: Fast-forward
+f4edab0 HEAD@{13}: checkout: moving from testbranchmerge to master
+07f8b1f HEAD@{14}: commit: licenses removed
+c438764 HEAD@{15}: commit: licenses added to branch
+65d2eb6 HEAD@{16}: commit: licenses removed
+f4edab0 HEAD@{17}: checkout: moving from master to testbranchmerge
+f4edab0 HEAD@{18}: commit: README.md is updated
+b35e35a HEAD@{19}: commit (merge): README.md committed after conflickt resolution
+ca652e9 HEAD@{20}: reset: moving to HEAD@{2}
+e13fb6f HEAD@{21}: rebase finished: returning to refs/heads/master
+e13fb6f HEAD@{22}: pull --rebase origin master: checkout e13fb6f6c17514445364639ff43a3facaddd4713
+ca652e9 HEAD@{23}: commit: NOTICE UPDATED ON 4TH JULY
+9d056b6 HEAD@{24}: commit: CHANGES.txt updated with new date
+1d114d8 HEAD@{25}: checkout: moving from ashish1 to master
+1d114d8 HEAD@{26}: checkout: moving from master to ashish1
+1d114d8 HEAD@{27}: commit (initial): added all files in spark-dev
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git reset HEAD@{4}
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ ls
+9d056b6ffd907ff1902ef45f9ea408393668e3c9  build/           core/    docs/      extras/    make-distribution.sh*  pom.xml   R/              sbin/                  sql/        unsafe/
+assembly/                                 CHANGES.txt      data/    ec2/       graphx/    mllib/                 project/  README.md       sbt/                   streaming/  yarn/
+bagel/                                    conf/            dev/     examples/  launcher/  network/               pylintrc  README.md.orig  scalastyle-config.xml  tools/
+bin/                                      CONTRIBUTING.md  docker/  external/  LICENSE    NOTICE                 python/   repl/           spark-dev/             tox.ini
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git pull origin master
+From https://github.com/practice-vishnoi/dev-spark-1
+ * branch            master     -> FETCH_HEAD
+Already up-to-date.
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ ls
+9d056b6ffd907ff1902ef45f9ea408393668e3c9  build/           core/    docs/      extras/    make-distribution.sh*  pom.xml   R/              sbin/                  sql/        unsafe/
+assembly/                                 CHANGES.txt      data/    ec2/       graphx/    mllib/                 project/  README.md       sbt/                   streaming/  yarn/
+bagel/                                    conf/            dev/     examples/  launcher/  network/               pylintrc  README.md.orig  scalastyle-config.xml  tools/
+bin/                                      CONTRIBUTING.md  docker/  external/  LICENSE    NOTICE                 python/   repl/           spark-dev/             tox.ini
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git rebase origin master
+fatal: Needed a single revision
+invalid upstream origin
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git pull origin master
+From https://github.com/practice-vishnoi/dev-spark-1
+ * branch            master     -> FETCH_HEAD
+Already up-to-date.
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git pull --force origin master
+From https://github.com/practice-vishnoi/dev-spark-1
+ * branch            master     -> FETCH_HEAD
+Already up-to-date.
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ ls
+9d056b6ffd907ff1902ef45f9ea408393668e3c9  build/           core/    docs/      extras/    make-distribution.sh*  pom.xml   R/              sbin/                  sql/        unsafe/
+assembly/                                 CHANGES.txt      data/    ec2/       graphx/    mllib/                 project/  README.md       sbt/                   streaming/  yarn/
+bagel/                                    conf/            dev/     examples/  launcher/  network/               pylintrc  README.md.orig  scalastyle-config.xml  tools/
+bin/                                      CONTRIBUTING.md  docker/  external/  LICENSE    NOTICE                 python/   repl/           spark-dev/             tox.ini
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git fetch --all
+Fetching origin
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ ls
+9d056b6ffd907ff1902ef45f9ea408393668e3c9  build/           core/    docs/      extras/    make-distribution.sh*  pom.xml   R/              sbin/                  sql/        unsafe/
+assembly/                                 CHANGES.txt      data/    ec2/       graphx/    mllib/                 project/  README.md       sbt/                   streaming/  yarn/
+bagel/                                    conf/            dev/     examples/  launcher/  network/               pylintrc  README.md.orig  scalastyle-config.xml  tools/
+bin/                                      CONTRIBUTING.md  docker/  external/  LICENSE    NOTICE                 python/   repl/           spark-dev/             tox.ini
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git fetch --all origin
+fatal: fetch --all does not take a repository argument
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git fetch --all origin/master
+fatal: fetch --all does not take a repository argument
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git fetch --all
+Fetching origin
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ ls
+9d056b6ffd907ff1902ef45f9ea408393668e3c9  build/           core/    docs/      extras/    make-distribution.sh*  pom.xml   R/              sbin/                  sql/        unsafe/
+assembly/                                 CHANGES.txt      data/    ec2/       graphx/    mllib/                 project/  README.md       sbt/                   streaming/  yarn/
+bagel/                                    conf/            dev/     examples/  launcher/  network/               pylintrc  README.md.orig  scalastyle-config.xml  tools/
+bin/                                      CONTRIBUTING.md  docker/  external/  LICENSE    NOTICE                 python/   repl/           spark-dev/             tox.ini
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ git reset --hard origin/master
+HEAD is now at f4edab0  README.md is updated
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
+$ ls
+9d056b6ffd907ff1902ef45f9ea408393668e3c9  build/           core/    docs/      extras/    licenses/              NOTICE    python/         repl/                  spark-dev/  tox.ini
+assembly/                                 CHANGES.txt      data/    ec2/       graphx/    make-distribution.sh*  pom.xml   R/              sbin/                  sql/        unsafe/
+bagel/                                    conf/            dev/     examples/  launcher/  mllib/                 project/  README.md       sbt/                   streaming/  yarn/
+bin/                                      CONTRIBUTING.md  docker/  external/  LICENSE    network/               pylintrc  README.md.orig  scalastyle-config.xml  tools/
+
+Ashish@Ashish MINGW64 ~/Documents/GitHub/spark-dev/spark-branch-1.5 (master)
