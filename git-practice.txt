@@ -1,5 +1,27 @@
- create mode 100644 unsafe/src/main/java/org/apache/spark/unsafe/memory/ExecutorMemoryManager.java
- create mode 100644 unsafe/src/main/java/org/apache/spark/unsafe/memory/HeapMemoryAllocator.java
+B:q
+
+B
+A
+C
+
+C
+C
+C
+
+A
+
+C:
+
+B
+C
+C
+C
+C
+C
+C
+C
+kjfkkjfslfj
+C
  create mode 100644 unsafe/src/main/java/org/apache/spark/unsafe/memory/MemoryAllocator.java
  create mode 100644 unsafe/src/main/java/org/apache/spark/unsafe/memory/MemoryBlock.java
  create mode 100644 unsafe/src/main/java/org/apache/spark/unsafe/memory/MemoryLocation.java
