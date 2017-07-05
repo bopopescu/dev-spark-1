@@ -1,4 +1,5 @@
-<<<<<<< HEAD
+It is testing for merge conflicts.<
+
 # Apache Spark
 
 Spark is a fast and general cluster computing system for Big Data. It provides
